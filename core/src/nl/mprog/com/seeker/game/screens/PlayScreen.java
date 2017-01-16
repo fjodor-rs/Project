@@ -12,12 +12,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.util.concurrent.LinkedBlockingQueue;
+
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.scenes.HUD;
-import nl.mprog.com.seeker.game.sprites.Goomba;
+import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.items.Item;
+import nl.mprog.com.seeker.game.sprites.items.ItemDef;
+import nl.mprog.com.seeker.game.sprites.items.Mushroom;
 import nl.mprog.com.seeker.game.tools.B2WorldCreator;
 import nl.mprog.com.seeker.game.tools.Controller;
 import nl.mprog.com.seeker.game.tools.WorldContactListener;
@@ -37,9 +44,12 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer b2dr;
+    private B2WorldCreator creator;
 
     private Mario mario;
-    private Goomba goomba;
+
+    private Array<Item> items;
+    private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
     private Controller controller;
 
@@ -59,7 +69,7 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
 
-        new B2WorldCreator(this);
+        creator = new B2WorldCreator(this);
 
         mario = new Mario(this);
         controller = new Controller(game.batch);
@@ -70,7 +80,22 @@ public class PlayScreen implements Screen {
         music.setLooping(true);
         music.play();
 
-        goomba = new Goomba(this, 64 / Seeker.PPM, 64 / Seeker.PPM);
+        items = new Array<Item>();
+        itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
+
+    }
+
+    public void spawnItem(ItemDef itemDef){
+        itemsToSpawn.add(itemDef);
+    }
+
+    public void handleSpawningItems(){
+        if(!itemsToSpawn.isEmpty()){
+            ItemDef itemDef = itemsToSpawn.poll();
+            if(itemDef.type == Mushroom.class){
+                items.add(new Mushroom(this, itemDef.position.x, itemDef.position.y));
+            }
+        }
     }
 
     public TextureAtlas getAtlas(){
@@ -83,22 +108,36 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt){
-        if (controller.isUpPressed() && mario.b2body.getLinearVelocity().y == 0)
-            mario.b2body.applyLinearImpulse(new Vector2(0, 4f), mario.b2body.getWorldCenter(), true); //true - will this impulse wake object.
-        if (controller.isRightPressed() && mario.b2body.getLinearVelocity().x <= 2)
-            mario.b2body.applyLinearImpulse(new Vector2(0.1f, 0), mario.b2body.getWorldCenter(), true);
-        if (controller.isLeftPressed() && mario.b2body.getLinearVelocity().x >= -2)
-            mario.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), mario.b2body.getWorldCenter(), true);
+        if(mario.currentState != Mario.State.DEAD) {
+            if (controller.isUpPressed() && mario.b2body.getLinearVelocity().y == 0)
+                mario.b2body.applyLinearImpulse(new Vector2(0, 4f), mario.b2body.getWorldCenter(), true); //true - will this impulse wake object.
+            if (controller.isRightPressed() && mario.b2body.getLinearVelocity().x <= 2)
+                mario.b2body.applyLinearImpulse(new Vector2(0.1f, 0), mario.b2body.getWorldCenter(), true);
+            if (controller.isLeftPressed() && mario.b2body.getLinearVelocity().x >= -2)
+                mario.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), mario.b2body.getWorldCenter(), true);
+        }
     }
 
     public void update(float dt){
 
         handleInput(dt);
+        handleSpawningItems();
         world.step(1/60f, 6, 2);
         mario.update(dt);
-        goomba.update(dt);
+        for(Enemy enemy : creator.getGoombas()){
+            enemy.update(dt);
+            if(enemy.getX() < mario.getX() + 224 / Seeker.PPM)
+                enemy.b2body.setActive(true);
+        }
+        for(Item item: items){
+            item.update(dt);
+        }
         hud.update(dt);
-        gameCam.position.x = mario.b2body.getPosition().x;
+
+        if(mario.currentState != Mario.State.DEAD) {
+            gameCam.position.x = mario.b2body.getPosition().x;
+        }
+
         gameCam.update();
         renderer.setView(gameCam);
     }
@@ -117,13 +156,29 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         mario.draw(game.batch);
-        goomba.draw(game.batch);
+        for(Enemy enemy : creator.getGoombas())
+            enemy.draw(game.batch);
+        for(Item item : items)
+            item.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
         controller.draw();
+
+        if(gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
+    }
+
+    public boolean gameOver(){
+        if(mario.currentState == Mario.State.DEAD && mario.getStateTimer() > 3){
+            return true;
+        }
+
+        return false;
     }
 
     @Override

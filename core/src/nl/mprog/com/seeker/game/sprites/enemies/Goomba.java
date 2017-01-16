@@ -1,12 +1,12 @@
-package nl.mprog.com.seeker.game.sprites;
+package nl.mprog.com.seeker.game.sprites.enemies;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
@@ -18,7 +18,7 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
  * Created by Fjodor on 2017/01/12.
  */
 
-public class Goomba extends Enemy {
+public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
 
     private float stateTime;
     private Animation walkAnimation;
@@ -86,6 +86,7 @@ public class Goomba extends Enemy {
     @Override
     public void hitOnHead() {
         setToDestroy = true;
+        Seeker.manager.get("audio/sounds/stomp.wav", Sound.class).play();
     }
 
     public void draw(Batch batch){
