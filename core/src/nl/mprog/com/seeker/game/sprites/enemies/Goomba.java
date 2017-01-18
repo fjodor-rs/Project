@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
+import nl.mprog.com.seeker.game.sprites.Mario;
 
 /**
  * Created by Fjodor on 2017/01/12.
@@ -84,9 +85,17 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
     }
 
     @Override
-    public void hitOnHead() {
+    public void hitOnHead(Mario mario) {
         setToDestroy = true;
         Seeker.manager.get("audio/sounds/stomp.wav", Sound.class).play();
+    }
+
+    @Override
+    public void hitByEnemy(Enemy enemy) {
+        if(enemy instanceof Turtle && ((Turtle) enemy).currentState == Turtle.State.MOVING_SHELL)
+            setToDestroy = true;
+        else
+            reverseVelocity(true, false);
     }
 
     public void draw(Batch batch){

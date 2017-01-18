@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.Array;
 
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.Seeker;
+import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
+import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
 
 /**
  * Created by Fjodor on 2017/01/10.
@@ -62,7 +64,6 @@ public class Mario extends Sprite{
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
-        //get run animation frames and add them to marioRun Animation
         for(int i = 1; i < 4; i++)
             frames.add(new TextureRegion(screen.getAtlas().findRegion("little_mario"), i * 16, 0, 16, 16));
         marioRun = new Animation(0.1f, frames);
@@ -75,7 +76,6 @@ public class Mario extends Sprite{
 
         frames.clear();
 
-        //get set animation frames from growing mario
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
@@ -83,11 +83,9 @@ public class Mario extends Sprite{
         growMario = new Animation(0.2f, frames);
 
 
-        //get jump animation frames and add them to marioJump Animation
         marioJump = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 80, 0, 16, 16);
         bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 80, 0, 16, 32);
 
-        //create texture region for mario standing
         marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 0, 0, 16, 16);
         bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32);
 
@@ -146,12 +144,12 @@ public class Mario extends Sprite{
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
-
-        EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-2 / Seeker.PPM, -6 / Seeker.PPM), new Vector2(2/ Seeker.PPM, -6 / Seeker.PPM));
-        fdef.shape = feet;
-        fdef.isSensor = false;
-        b2body.createFixture(fdef);
+//
+//        EdgeShape feet = new EdgeShape();
+//        feet.set(new Vector2(-2 / Seeker.PPM, -6 / Seeker.PPM), new Vector2(2/ Seeker.PPM, -6 / Seeker.PPM));
+//        fdef.shape = feet;
+//        fdef.isSensor = false;
+//        b2body.createFixture(fdef);
 
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / Seeker.PPM, 6 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 6 / Seeker.PPM));
@@ -243,6 +241,24 @@ public class Mario extends Sprite{
         Seeker.manager.get("audio/sounds/powerup.wav", Sound.class).play();
     }
 
+    public void die() {
+
+        if (!isDead()) {
+
+            Seeker.manager.get("audio/music/mario_music.ogg", Music.class).stop();
+            Seeker.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+            marioIsDead = true;
+            Filter filter = new Filter();
+            filter.maskBits = Seeker.NOTHING_BIT;
+
+            for (Fixture fixture : b2body.getFixtureList()) {
+                fixture.setFilterData(filter);
+            }
+
+            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+        }
+    }
+
     public boolean isDead(){
         return marioIsDead;
     }
@@ -255,22 +271,18 @@ public class Mario extends Sprite{
         return marioIsBig;
     }
 
-    public void hit() {
-        if (marioIsBig){
-            marioIsBig = false;
-            timeToRedefineMario = true;
-            setBounds(getX(), getY(), getWidth(), getHeight() / 2);
-            Seeker.manager.get("audio/sounds/powerdown.wav", Sound.class).play();
-        }
-        else{
-            Seeker.manager.load("audio/music/mario_music.wav", Music.class);
-            Seeker.manager.load("audio/sounds/mariodie.wav", Sound.class);
-            marioIsDead = true;
-            Filter filter = new Filter();
-            filter.maskBits = Seeker.NOTHING_BIT;
-            for(Fixture fixture : b2body.getFixtureList())
-                fixture.setFilterData(filter);
-            b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
+    public void hit(Enemy enemy){
+        if(enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDING_SHELL)
+            ((Turtle) enemy).kick(this.getX() <= enemy.getX() ? Turtle.KICK_RIGHT : Turtle.KICK_LEFT);
+        else {
+            if (marioIsBig) {
+                marioIsBig = false;
+                timeToRedefineMario = true;
+                setBounds(getX(), getY(), getWidth(), getHeight() / 2);
+                Seeker.manager.get("audio/sounds/powerdown.wav", Sound.class).play();
+            } else {
+                die();
+            }
         }
     }
 

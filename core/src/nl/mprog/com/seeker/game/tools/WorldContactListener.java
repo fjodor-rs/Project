@@ -34,9 +34,9 @@ public class WorldContactListener implements ContactListener {
                 break;
             case Seeker.ENEMY_HEAD_BIT | Seeker.MARIO_BIT:
                 if(fixA.getFilterData().categoryBits == Seeker.ENEMY_HEAD_BIT)
-                    ((Enemy)fixA.getUserData()).hitOnHead();
+                    ((Enemy)fixA.getUserData()).hitOnHead((Mario) fixB.getUserData()) ;
                 else
-                    ((Enemy)fixB.getUserData()).hitOnHead();
+                    ((Enemy)fixB.getUserData()).hitOnHead((Mario) fixA.getUserData()) ;
                 break;
             case Seeker.ENEMY_BIT | Seeker.OBJECT_BIT:
                 if(fixA.getFilterData().categoryBits == Seeker.ENEMY_BIT)
@@ -46,13 +46,13 @@ public class WorldContactListener implements ContactListener {
                 break;
             case Seeker.MARIO_BIT | Seeker.ENEMY_BIT:
                 if(fixA.getFilterData().categoryBits == Seeker.MARIO_BIT)
-                    ((Mario) fixA.getUserData()).hit();
+                    ((Mario) fixA.getUserData()).hit((Enemy)fixB.getUserData());
                 else
-                    ((Mario) fixA.getUserData()).hit();
+                    ((Mario) fixB.getUserData()).hit((Enemy)fixA.getUserData());
                 break;
             case Seeker.ENEMY_BIT | Seeker.ENEMY_BIT:
-                ((Enemy)fixA.getUserData()).reverseVelocity(true, false);
-                ((Enemy)fixB.getUserData()).reverseVelocity(true, false);
+                ((Enemy)fixA.getUserData()).hitByEnemy((Enemy)fixB.getUserData());
+                ((Enemy)fixB.getUserData()).hitByEnemy((Enemy)fixA.getUserData());
                 break;
             case Seeker.ITEM_BIT | Seeker.OBJECT_BIT:
                 if(fixA.getFilterData().categoryBits == Seeker.ITEM_BIT)

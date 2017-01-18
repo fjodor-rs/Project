@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="151">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="156">
  <tileset firstgid="1" name="NES - Super Mario Bros - Tileset" tilewidth="16" tileheight="16" tilecount="924" columns="33">
   <image source="mario_tileset.png" width="528" height="448"/>
  </tileset>
@@ -10,7 +10,7 @@
  </layer>
  <layer name="graphics" width="240" height="13">
   <data encoding="base64" compression="zlib">
-   eJzt1TEOgyAYhmFIp3oDrtGRM9n7r7o0YaiEAWiDz5N8cfN3eWMIAAAAAMAo+dcfADeTiuXKWt/Veg9W85p4q+z241FZ6jxYTdlvraPa8xlD2OL1DQ3BGD3+v/vZ7vtLv5qFsUb0q1uYo2e/uoW5ov3doNUBDcgKIw==
+   eJzt1bENwjAQQNFEVLCB16DMTLABw5PGkovEpLDJGd6TTu4cF/eVaQIAAAAAelnOfgD8mVTMUpmjd/WS5o6XQwP3L36r7Da7VOZsL/0SXNnvXkfpw3ld9/xW2fWtbkegX6Jr8f99rHv+3Nj1EZst6ZfoevQ7ereZfomuZb+/0m2mX6KbTbiBo94ZvQqI
   </data>
  </layer>
  <objectgroup name="ground">
@@ -72,5 +72,14 @@
   <object id="145" x="224" y="176" width="16" height="16"/>
   <object id="146" x="496" y="176" width="16" height="16"/>
   <object id="147" x="96" y="176" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="turtles">
+  <object id="151" x="240" y="112" width="16" height="16"/>
+  <object id="152" x="432" y="176" width="16" height="16"/>
+  <object id="153" x="544" y="80" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="end">
+  <object id="154" x="1136" y="96" width="16" height="96"/>
+  <object id="155" x="1204" y="280" height="1"/>
  </objectgroup>
 </map>

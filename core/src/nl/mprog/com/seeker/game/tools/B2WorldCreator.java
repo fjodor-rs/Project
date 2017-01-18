@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Array;
 
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
+import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
+import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
 import nl.mprog.com.seeker.game.sprites.tileobjects.Brick;
 import nl.mprog.com.seeker.game.sprites.tileobjects.CoinBlock;
 import nl.mprog.com.seeker.game.sprites.enemies.Goomba;
@@ -22,8 +24,9 @@ import nl.mprog.com.seeker.game.sprites.enemies.Goomba;
  */
 
 public class B2WorldCreator {
-    private static final int OBJECT_LAYERS = 8;
+    private static final int OBJECT_LAYERS = 9;
     private Array<Goomba> goombas;
+    private Array<Turtle> turtles;
 
     public B2WorldCreator(PlayScreen screen){
         World world = screen.getWorld();
@@ -33,6 +36,7 @@ public class B2WorldCreator {
         FixtureDef fdef = new FixtureDef();
         Body body;
         goombas = new Array<Goomba>();
+        turtles = new Array<Turtle>();
 
         for (int i = 2; i < OBJECT_LAYERS; i++){
             for (MapObject object : tiledMap.getLayers().get(i).getObjects().getByType(RectangleMapObject.class)) {
@@ -69,10 +73,16 @@ public class B2WorldCreator {
                 else if (i == 7){
                     goombas.add(new Goomba(screen, rect.getX() / Seeker.PPM, rect.getY() / Seeker.PPM));
                 }
+                else if (i == 8){
+                    turtles.add(new Turtle(screen, rect.getX() / Seeker.PPM, rect.getY() / Seeker.PPM));
+                }
             }
         }
     }
-    public Array<Goomba> getGoombas() {
-        return goombas;
+    public Array<Enemy> getEnemies(){
+        Array<Enemy> enemies = new Array<Enemy>();
+        enemies.addAll(goombas);
+        enemies.addAll(turtles);
+        return enemies;
     }
 }
