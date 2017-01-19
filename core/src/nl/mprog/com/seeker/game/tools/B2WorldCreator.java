@@ -78,7 +78,7 @@ public class B2WorldCreator {
                     turtles.add(new Turtle(screen, rect.getX() / Seeker.PPM, rect.getY() / Seeker.PPM));
                 }
                 else if (i == 9){
-                    new EndBlock(screen, object);
+                   new EndBlock(screen, object);
                 }
             }
         }

@@ -29,20 +29,20 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     int col_width = 100;
     int row_height = 150;
-    private static final int HIGHSCORE = 100;
 
     public MainMenuScreen(final Seeker game) {
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         Skin mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        final Button button = new TextButton("Play", mySkin, "small");
-        final Button button2 = new TextButton("Leaderboard",mySkin,"small");
+        final Button button = new TextButton("Play", mySkin);
+        final Button button2 = new TextButton("Leaderboard",mySkin);
         button.setSize(col_width*4,row_height);
         button.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*3);
         button2.setSize(col_width*4,row_height);
-        button2.setPosition(col_width*7,Gdx.graphics.getHeight()-row_height*3);
-        button.addListener(new ChangeListener() {
+        button2.setPosition(col_width*9,Gdx.graphics.getHeight()-row_height*3);
+
+                button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 

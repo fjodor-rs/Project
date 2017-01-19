@@ -138,10 +138,6 @@ public class PlayScreen implements Screen {
             gameCam.position.x = mario.b2body.getPosition().x;
         }
 
-//        if(game_won){
-//            game.setScreen(new LeaderboardScreen(game));
-//        }
-
         gameCam.update();
         renderer.setView(gameCam);
     }

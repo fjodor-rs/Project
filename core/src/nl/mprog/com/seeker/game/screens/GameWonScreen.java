@@ -7,9 +7,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -21,29 +26,39 @@ import nl.mprog.com.seeker.game.Seeker;
 
 public class GameWonScreen implements Screen{
 
-    private Viewport viewport;
     private Stage stage;
     private Game game;
+    int col_width = 100;
+    int row_height = 150;
 
-    public GameWonScreen(Game game) {
+    public GameWonScreen(final Seeker game) {
         this.game = game;
-        viewport = new FitViewport(Seeker.V_WIDTH, Seeker.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, ((Seeker) game).batch);
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        Skin mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+        final Button button = new TextButton("Play", mySkin);
+        final Button button2 = new TextButton("Leaderboard",mySkin);
+        button.setSize(col_width*4,row_height);
+        button.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*3);
+        button2.setSize(col_width*4,row_height);
+        button2.setPosition(col_width*9,Gdx.graphics.getHeight()-row_height*3);
 
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
 
-        Table table = new Table();
-        table.center();
-        table.setFillParent(true);
+                game.setScreen(new PlayScreen(game));
+            }
+        });
+        button2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
 
-        Label gameOverLabel = new Label("GAME WON", font);
-        Label playAgainLabel = new Label("Press to Play Again", font);
-
-        table.add(gameOverLabel).expandX();
-        table.row();
-        table.add(playAgainLabel).expandX().padTop(10f);
-
-        stage.addActor(table);
+                game.playServices.showScore();
+            }
+        });
+        stage.addActor(button);
+        stage.addActor(button2);
     }
 
     @Override
@@ -53,12 +68,10 @@ public class GameWonScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        if(Gdx.input.justTouched()){
-            game.setScreen(new PlayScreen((Seeker)game));
-            dispose();
-        }
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
         stage.draw();
     }
 

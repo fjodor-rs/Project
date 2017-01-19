@@ -54,11 +54,13 @@ public abstract class InteractiveTileObject {
     }
 
     public abstract void onHeadHit(Mario mario);
+
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);
     }
+
     public TiledMapTileLayer.Cell getCell(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(1);
         return layer.getCell((int)(body.getPosition().x * Seeker.PPM / 16), (int)(body.getPosition().y *Seeker.PPM / 16));

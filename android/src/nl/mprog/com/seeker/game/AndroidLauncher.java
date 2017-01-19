@@ -119,7 +119,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
 					getString(R.string.leaderboard_best_time), highScore);
 		}
 	}
-
+//
 //	@Override
 //	public void showAchievement()
 //	{
