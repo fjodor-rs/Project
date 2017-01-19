@@ -18,13 +18,14 @@ import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
 import nl.mprog.com.seeker.game.sprites.tileobjects.Brick;
 import nl.mprog.com.seeker.game.sprites.tileobjects.CoinBlock;
 import nl.mprog.com.seeker.game.sprites.enemies.Goomba;
+import nl.mprog.com.seeker.game.sprites.tileobjects.EndBlock;
 
 /**
  * Created by Fjodor on 2017/01/10.
  */
 
 public class B2WorldCreator {
-    private static final int OBJECT_LAYERS = 9;
+    private static final int OBJECT_LAYERS = 10;
     private Array<Goomba> goombas;
     private Array<Turtle> turtles;
 
@@ -75,6 +76,9 @@ public class B2WorldCreator {
                 }
                 else if (i == 8){
                     turtles.add(new Turtle(screen, rect.getX() / Seeker.PPM, rect.getY() / Seeker.PPM));
+                }
+                else if (i == 9){
+                    new EndBlock(screen, object);
                 }
             }
         }

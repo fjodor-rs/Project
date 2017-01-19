@@ -29,7 +29,8 @@ import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
 public class Mario extends Sprite{
 
 
-    public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD };
+
+    public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD, WON};
     public State currentState;
     public State previousState;
 
@@ -53,7 +54,7 @@ public class Mario extends Sprite{
     private boolean timeToDefineBigMario;
     private boolean timeToRedefineMario;
     private boolean marioIsDead;
-
+    private boolean marioWon;
 
     public Mario(PlayScreen screen){
         this.world = screen.getWorld();
@@ -180,6 +181,9 @@ public class Mario extends Sprite{
 
         TextureRegion region;
         switch(currentState){
+            case WON:
+                region = marioDead;
+                break;
             case DEAD:
                 region = marioDead;
                 break;
@@ -217,6 +221,8 @@ public class Mario extends Sprite{
     }
 
     public State getState(){
+        if(marioWon)
+            return State.WON;
         if(marioIsDead)
             return State.DEAD;
         else if(runGrowAnimation)
@@ -284,6 +290,12 @@ public class Mario extends Sprite{
                 die();
             }
         }
+    }
+
+    public void win(){
+        marioWon = true;
+        Seeker.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+
     }
 
     public void redefineMario() {

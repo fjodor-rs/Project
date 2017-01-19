@@ -138,6 +138,10 @@ public class PlayScreen implements Screen {
             gameCam.position.x = mario.b2body.getPosition().x;
         }
 
+//        if(game_won){
+//            game.setScreen(new LeaderboardScreen(game));
+//        }
+
         gameCam.update();
         renderer.setView(gameCam);
     }
@@ -171,10 +175,23 @@ public class PlayScreen implements Screen {
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
+
+        if(gameWon()){
+            game.setScreen(new GameWonScreen(game));
+            dispose();
+        }
     }
 
     public boolean gameOver(){
         if(mario.currentState == Mario.State.DEAD && mario.getStateTimer() > 3){
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean gameWon(){
+        if(mario.currentState == Mario.State.WON && mario.getStateTimer() > 3){
             return true;
         }
 

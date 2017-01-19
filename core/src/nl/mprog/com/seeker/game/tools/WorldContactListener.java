@@ -66,6 +66,12 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Item)fixB.getUserData()).use((Mario) fixA.getUserData());
                 break;
+            case Seeker.MARIO_BIT | Seeker.END_BIT:
+                if(fixA.getFilterData().categoryBits == Seeker.MARIO_BIT)
+                    ((Mario) fixA.getUserData()).win();
+                else
+                    ((Mario) fixB.getUserData()).win();
+                break;
         }
 
     }

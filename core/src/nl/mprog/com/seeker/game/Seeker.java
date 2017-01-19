@@ -5,6 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import nl.mprog.com.seeker.game.screens.MainMenuScreen;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 
 public class Seeker extends Game {
@@ -23,10 +25,18 @@ public class Seeker extends Game {
 	public static final short ENEMY_HEAD_BIT = 128;
 	public static final short ITEM_BIT = 256;
 	public static final short MARIO_HEAD_BIT = 512;
+	public static final short END_BIT = 1024;
 
 	public SpriteBatch batch;
 
 	public static AssetManager manager;
+
+	public static PlayServices playServices;
+
+	public Seeker(PlayServices playServices)
+	{
+		this.playServices = playServices;
+	}
 
 	@Override
 	public void create () {
@@ -45,7 +55,7 @@ public class Seeker extends Game {
 
 		manager.finishLoading();
 
-		setScreen(new PlayScreen(this));
+		setScreen(new MainMenuScreen(this));
 	}
 
 	@Override

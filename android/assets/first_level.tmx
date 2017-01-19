@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="156">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="240" height="13" tilewidth="16" tileheight="16" nextobjectid="162">
  <tileset firstgid="1" name="NES - Super Mario Bros - Tileset" tilewidth="16" tileheight="16" tilecount="924" columns="33">
   <image source="mario_tileset.png" width="528" height="448"/>
  </tileset>
@@ -79,7 +79,12 @@
   <object id="153" x="544" y="80" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="end">
-  <object id="154" x="1136" y="96" width="16" height="96"/>
   <object id="155" x="1204" y="280" height="1"/>
+  <object id="156" x="1136" y="96" width="16" height="16"/>
+  <object id="157" x="1136" y="112" width="16" height="16"/>
+  <object id="158" x="1136" y="128" width="16" height="16"/>
+  <object id="159" x="1136" y="144" width="16" height="16"/>
+  <object id="160" x="1136" y="160" width="16" height="16"/>
+  <object id="161" x="1136" y="176" width="16" height="16"/>
  </objectgroup>
 </map>

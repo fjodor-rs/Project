@@ -6,5 +6,7 @@ Save this file as res/values/games-ids.xml in your project.
 <resources>
     <string name="app_id">643676739080</string>
     <string name="package_name">nl.mprog.com.seeker.game</string>
+    <string name="achievement_achievements">CgkIiKz-8N0SEAIQAg</string>
     <string name="leaderboard_best_time">CgkIiKz-8N0SEAIQAQ</string>
 </resources>
+

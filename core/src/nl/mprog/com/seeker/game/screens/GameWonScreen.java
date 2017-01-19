@@ -16,15 +16,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import nl.mprog.com.seeker.game.Seeker;
 
 /**
- * Created by Fjodor on 2017/01/16.
+ * Created by Fjodor on 2017/01/19.
  */
 
-public class GameOverScreen implements Screen {
+public class GameWonScreen implements Screen{
+
     private Viewport viewport;
     private Stage stage;
     private Game game;
 
-    public GameOverScreen(Game game) {
+    public GameWonScreen(Game game) {
         this.game = game;
         viewport = new FitViewport(Seeker.V_WIDTH, Seeker.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, ((Seeker) game).batch);
@@ -35,7 +36,7 @@ public class GameOverScreen implements Screen {
         table.center();
         table.setFillParent(true);
 
-        Label gameOverLabel = new Label("GAME OVER", font);
+        Label gameOverLabel = new Label("GAME WON", font);
         Label playAgainLabel = new Label("Press to Play Again", font);
 
         table.add(gameOverLabel).expandX();
@@ -83,6 +84,6 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
+
     }
 }
