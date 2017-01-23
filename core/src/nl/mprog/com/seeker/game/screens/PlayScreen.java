@@ -54,7 +54,7 @@ public class PlayScreen implements Screen {
     private Controller controller;
 
     public PlayScreen(Seeker game) {
-        textureAtlas = new TextureAtlas("mario_and_enemies.pack");
+        textureAtlas = new TextureAtlas("wreck_it.pack");
 
         this.game = game;
         gameCam = new OrthographicCamera();
@@ -62,7 +62,7 @@ public class PlayScreen implements Screen {
         hud = new HUD(game.batch);
 
         mapLoader = new TmxMapLoader();
-        tiledMap = mapLoader.load("first_level.tmx");
+        tiledMap = mapLoader.load("demo_level.tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / Seeker.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 

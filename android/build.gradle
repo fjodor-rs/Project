@@ -32,8 +32,8 @@ android {
         multiDexEnabled true
     }
     buildTypes {
-        release {
-            signingConfig signingConfigs.config
+        debug {
+            debuggable true
         }
     }
 }

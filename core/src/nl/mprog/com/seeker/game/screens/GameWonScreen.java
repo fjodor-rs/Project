@@ -15,10 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
 
 import nl.mprog.com.seeker.game.Seeker;
+
 
 /**
  * Created by Fjodor on 2017/01/19.
@@ -35,13 +35,16 @@ public class GameWonScreen implements Screen{
         this.game = game;
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+
         Skin mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
         final Button button = new TextButton("Play", mySkin);
         final Button button2 = new TextButton("Leaderboard",mySkin);
+
         button.setSize(col_width*4,row_height);
         button.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*3);
         button2.setSize(col_width*4,row_height);
         button2.setPosition(col_width*9,Gdx.graphics.getHeight()-row_height*3);
+
 
         button.addListener(new ChangeListener() {
             @Override

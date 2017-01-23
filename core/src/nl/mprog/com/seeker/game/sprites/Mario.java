@@ -65,8 +65,8 @@ public class Mario extends Sprite{
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
-        for(int i = 1; i < 4; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("little_mario"), i * 16, 0, 16, 16));
+        for(int i = 1; i < 3; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("wreck_it"), i * 64, 24, 64, 64));
         marioRun = new Animation(0.1f, frames);
 
         frames.clear();
@@ -84,16 +84,16 @@ public class Mario extends Sprite{
         growMario = new Animation(0.2f, frames);
 
 
-        marioJump = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 80, 0, 16, 16);
+        marioJump = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 384, 8, 64, 80);
         bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 80, 0, 16, 32);
 
-        marioStand = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 0, 0, 16, 16);
+        marioStand = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 0, 24, 64, 64);
         bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32);
 
         marioDead = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 96, 0, 16, 16);
 
         defineMario();
-        setBounds(0, 0, 16 / Seeker.PPM, 16 / Seeker.PPM);
+        setBounds(0, 0, 52 / Seeker.PPM, 52 / Seeker.PPM);
         setRegion(marioStand);
     }
 
@@ -139,7 +139,7 @@ public class Mario extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / Seeker.PPM);
+        shape.setRadius(18 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.MARIO_BIT;
         fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
@@ -153,7 +153,7 @@ public class Mario extends Sprite{
 //        b2body.createFixture(fdef);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 6 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 6 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 10 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;

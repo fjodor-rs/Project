@@ -55,7 +55,7 @@ public class Seeker extends Game {
 
 		manager.finishLoading();
 
-		setScreen(new MainMenuScreen(this));
+		setScreen(new PlayScreen(this));
 	}
 
 	@Override
