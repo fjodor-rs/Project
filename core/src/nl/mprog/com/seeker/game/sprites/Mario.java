@@ -3,6 +3,7 @@ package nl.mprog.com.seeker.game.sprites;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -21,6 +22,8 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
+import nl.mprog.com.seeker.game.sprites.weapons.Axe;
+import nl.mprog.com.seeker.game.tools.Controller;
 
 /**
  * Created by Fjodor on 2017/01/10.
@@ -29,8 +32,10 @@ import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
 public class Mario extends Sprite{
 
 
+    private PlayScreen screen;
+    public boolean smashMode;
 
-    public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD, WON};
+    public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD, WON, SMASHING};
     public State currentState;
     public State previousState;
 
@@ -42,6 +47,7 @@ public class Mario extends Sprite{
     private TextureRegion bigMarioJump;
     private Animation bigMarioRun;
     private Animation growMario;
+    private Animation marioSmash;
 
     public World world;
     public Body b2body;
@@ -56,7 +62,10 @@ public class Mario extends Sprite{
     private boolean marioIsDead;
     private boolean marioWon;
 
+    private Array<Axe> axes;
+
     public Mario(PlayScreen screen){
+        this.screen = screen;
         this.world = screen.getWorld();
         currentState = State.STANDING;
         previousState = State.STANDING;
@@ -77,12 +86,19 @@ public class Mario extends Sprite{
 
         frames.clear();
 
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 0, 96, 70, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 72, 96, 70, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 144, 96, 70, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 216, 96, 70, 64));
+
+        marioSmash = new Animation(0.15f, frames);
+        frames.clear();
+
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
         frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
         growMario = new Animation(0.2f, frames);
-
 
         marioJump = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 384, 8, 64, 80);
         bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 80, 0, 16, 32);
@@ -90,11 +106,13 @@ public class Mario extends Sprite{
         marioStand = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 0, 24, 64, 64);
         bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32);
 
-        marioDead = new TextureRegion(screen.getAtlas().findRegion("little_mario"), 96, 0, 16, 16);
+        marioDead = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 160, 244, 75, 64);
 
         defineMario();
         setBounds(0, 0, 52 / Seeker.PPM, 52 / Seeker.PPM);
         setRegion(marioStand);
+
+        axes = new Array<Axe>();
     }
 
     public void defineBigMario(){
@@ -153,7 +171,7 @@ public class Mario extends Sprite{
 //        b2body.createFixture(fdef);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 10 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 18 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;
@@ -174,6 +192,13 @@ public class Mario extends Sprite{
         if(timeToRedefineMario){
             redefineMario();
         }
+
+        for(Axe axe: axes){
+            axe.update(dt);
+            if(axe.isDestroyed())
+                axes.removeValue(axe, true);
+        }
+
     }
 
     public TextureRegion getFrame(Float dt){
@@ -197,6 +222,9 @@ public class Mario extends Sprite{
                 break;
             case RUNNING:
                 region = marioIsBig ? (TextureRegion) bigMarioRun.getKeyFrame(stateTimer, true) : (TextureRegion) marioRun.getKeyFrame(stateTimer, true);
+                break;
+            case SMASHING:
+                region = (TextureRegion) marioSmash.getKeyFrame(stateTimer, true);
                 break;
             case FALLING:
             case STANDING:
@@ -231,6 +259,8 @@ public class Mario extends Sprite{
             return State.JUMPING;
         else if(b2body.getLinearVelocity().y < 0)
             return State.FALLING;
+        else if(smashMode)
+            return State.SMASHING;
         else if(b2body.getLinearVelocity().x != 0)
             return State.RUNNING;
         else
@@ -251,7 +281,7 @@ public class Mario extends Sprite{
 
         if (!isDead()) {
 
-            Seeker.manager.get("audio/music/mario_music.ogg", Music.class).stop();
+            Seeker.manager.get("audio/music/factory_time_loop.ogg", Music.class).stop();
             Seeker.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
             marioIsDead = true;
             Filter filter = new Filter();
@@ -331,4 +361,15 @@ public class Mario extends Sprite{
 
         timeToRedefineMario = false;
     }
+
+    public void throwAxe(){
+        axes.add(new Axe(screen, b2body.getPosition().x, b2body.getPosition().y, runningRight ? true : false));
+    }
+
+    public void draw(Batch batch) {
+        super.draw(batch);
+        for (Axe ball : axes)
+            ball.draw(batch);
+    }
+
 }

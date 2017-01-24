@@ -33,6 +33,7 @@ public class Controller {
     public Image buttonRight;
     public OrthographicCamera camera;
     public Table table;
+    public Table table2;
 
     //Constructor.
     public Controller(SpriteBatch spriteBatch) {
@@ -101,20 +102,25 @@ public class Controller {
 
         //Table with buttons.
         table = new Table();
-        table.left().bottom(); //Align to the left bottom.
-        table.add();
-        table.add(buttonUp).size(buttonUp.getWidth(), buttonUp.getHeight());
-        table.add();
-        table.row().pad(5, 5, 5, 5);
-        table.add(buttonLeft).size(buttonLeft.getWidth(), buttonLeft.getHeight());
-        table.add();
+        table2 = new Table();
+
+        table.debug();
+        table2.debug();
+
+        table.left().bottom().padLeft(20);
+        table2.setFillParent(true);
+        table2.right().bottom().padRight(20);
+
+        table.add(buttonLeft).size(buttonLeft.getWidth(), buttonLeft.getHeight()).padRight(20);
         table.add(buttonRight).size(buttonRight.getWidth(), buttonRight.getHeight());
         table.row().padBottom(5);
-        table.add();
-        table.add(buttonDown).size(buttonDown.getWidth(), buttonDown.getHeight());
-        table.add();
+
+        table2.add(buttonDown).size(buttonDown.getWidth(), buttonDown.getHeight()).padRight(20);
+        table2.add(buttonUp).size(buttonUp.getWidth(), buttonUp.getHeight());
+        table2.row().padBottom(5);
 
         stage.addActor(table);
+        stage.addActor(table2);
     }
 
     public void draw() {

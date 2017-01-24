@@ -76,7 +76,7 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        music = Seeker.manager.get("audio/music/mario_music.ogg");
+        music = Seeker.manager.get("audio/music/factory_time_loop.ogg");
         music.setLooping(true);
         music.play();
 
@@ -115,6 +115,10 @@ public class PlayScreen implements Screen {
                 mario.b2body.applyLinearImpulse(new Vector2(0.1f, 0), mario.b2body.getWorldCenter(), true);
             if (controller.isLeftPressed() && mario.b2body.getLinearVelocity().x >= -2)
                 mario.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), mario.b2body.getWorldCenter(), true);
+            if(controller.isDownPressed())
+                mario.smashMode = true;
+            else
+                mario.smashMode = false;
         }
     }
 

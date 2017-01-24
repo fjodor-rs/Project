@@ -10,6 +10,7 @@ import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.tileobjects.InteractiveTileObject;
 import nl.mprog.com.seeker.game.sprites.Mario;
 import nl.mprog.com.seeker.game.sprites.items.Item;
+import nl.mprog.com.seeker.game.sprites.weapons.Axe;
 
 /**
  * Created by Fjodor on 2017/01/12.
@@ -71,6 +72,12 @@ public class WorldContactListener implements ContactListener {
                     ((Mario) fixA.getUserData()).win();
                 else
                     ((Mario) fixB.getUserData()).win();
+                break;
+            case Seeker.AXE_BIT | Seeker.OBJECT_BIT:
+                if(fixA.getFilterData().categoryBits == Seeker.AXE_BIT)
+                    ((Axe)fixA.getUserData()).setToDestroy();
+                else
+                    ((Axe)fixB.getUserData()).setToDestroy();
                 break;
         }
 
