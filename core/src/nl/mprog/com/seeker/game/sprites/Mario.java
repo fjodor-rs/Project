@@ -23,10 +23,8 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
-import nl.mprog.com.seeker.game.sprites.tileobjects.Brick;
 import nl.mprog.com.seeker.game.sprites.tileobjects.InteractiveTileObject;
 import nl.mprog.com.seeker.game.sprites.weapons.Axe;
-import nl.mprog.com.seeker.game.tools.Controller;
 
 /**
  * Created by Fjodor on 2017/01/10.
@@ -37,7 +35,6 @@ public class Mario extends Sprite{
 
     private PlayScreen screen;
     public boolean smashMode;
-    public boolean brickContact;
 
     public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD, WON, SMASHING};
     public State currentState;
@@ -49,9 +46,12 @@ public class Mario extends Sprite{
     private TextureRegion marioDead;
     private TextureRegion bigMarioStand;
     private TextureRegion bigMarioJump;
+    private TextureRegion marioWinning;
+    private TextureRegion hulkWinning;
     private Animation bigMarioRun;
     private Animation growMario;
     private Animation marioSmash;
+    private Animation hulkSmash;
 
     public InteractiveTileObject touching;
     public World world;
@@ -85,8 +85,8 @@ public class Mario extends Sprite{
 
         frames.clear();
 
-        for(int i = 1; i < 4; i++)
-            frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), i * 16, 0, 16, 32));
+        for(int i = 1; i < 3; i++)
+            frames.add(new TextureRegion(screen.getAtlas().findRegion("hulk_it"), i * 64, 24, 64, 64));
         bigMarioRun = new Animation(0.1f, frames);
 
         frames.clear();
@@ -99,19 +99,30 @@ public class Mario extends Sprite{
         marioSmash = new Animation(0.15f, frames);
         frames.clear();
 
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 240, 0, 16, 32));
-        frames.add(new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 0, 96, 70, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 72, 96, 70, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 144, 96, 70, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 216, 96, 70, 64));
+
+        hulkSmash = new Animation(0.15f, frames);
+        frames.clear();
+
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 0, 24, 64, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 0, 24, 64, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 0, 24, 64, 64));
+        frames.add(new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 0, 24, 64, 64));
         growMario = new Animation(0.2f, frames);
 
         marioJump = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 384, 8, 64, 80);
-        bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 80, 0, 16, 32);
+        bigMarioJump = new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 384, 8, 64, 80);
 
         marioStand = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 0, 24, 64, 64);
-        bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("big_mario"), 0, 0, 16, 32);
+        bigMarioStand = new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 0, 24, 64, 64);
 
         marioDead = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 160, 244, 75, 64);
+
+        marioWinning = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 290, 158, 64, 75);
+        hulkWinning = new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 290, 158, 64, 75);
 
         defineMario();
         setBounds(0, 0, 52 / Seeker.PPM, 52 / Seeker.PPM);
@@ -123,33 +134,33 @@ public class Mario extends Sprite{
         Vector2 currentPosition = b2body.getPosition();
         world.destroyBody(b2body);
         BodyDef bdef = new BodyDef();
-        bdef.position.set(currentPosition.add(0, 10 / Seeker.PPM));
+        bdef.position.set(currentPosition);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / Seeker.PPM);
+        shape.setRadius(18 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.MARIO_BIT;
         fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
-        shape.setPosition(new Vector2(0, -14 / Seeker.PPM));
-        b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-2 / Seeker.PPM, -6 / Seeker.PPM), new Vector2(2/ Seeker.PPM, -6 / Seeker.PPM));
+        feet.set(new Vector2(-9 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -18 / Seeker.PPM));
+        fdef.filter.categoryBits = Seeker.MARIO_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 6 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 6 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 18 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);
+
         timeToDefineBigMario = false;
     }
 
@@ -169,7 +180,7 @@ public class Mario extends Sprite{
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-6 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(6 / Seeker.PPM, -18 / Seeker.PPM));
+        feet.set(new Vector2(-9 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -18 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
@@ -182,8 +193,6 @@ public class Mario extends Sprite{
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);
 
-        smashMode = false;
-
     }
 
     public void update(float dt){
@@ -192,12 +201,8 @@ public class Mario extends Sprite{
             die();
         }
 
-        if(marioIsBig){
-            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2 - 6 / Seeker.PPM);
-        }
-        else{
-            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-        }
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+
         setRegion(getFrame(dt));
         if(timeToDefineBigMario){
             defineBigMario();
@@ -219,7 +224,7 @@ public class Mario extends Sprite{
         TextureRegion region;
         switch(currentState){
             case WON:
-                region = marioDead;
+                region = marioIsBig ? hulkWinning : marioWinning;
                 break;
             case DEAD:
                 region = marioDead;
@@ -236,7 +241,7 @@ public class Mario extends Sprite{
                 region = marioIsBig ? (TextureRegion) bigMarioRun.getKeyFrame(stateTimer, true) : (TextureRegion) marioRun.getKeyFrame(stateTimer, true);
                 break;
             case SMASHING:
-                region = (TextureRegion) marioSmash.getKeyFrame(stateTimer, true);
+                region = marioIsBig ? (TextureRegion) hulkSmash.getKeyFrame(stateTimer, true) : (TextureRegion) marioSmash.getKeyFrame(stateTimer, true);
                 if (touching != null) {
                     onSmashBrick(this.touching);
                 }
@@ -276,21 +281,18 @@ public class Mario extends Sprite{
             return State.JUMPING;
         else if(b2body.getLinearVelocity().y < 0)
             return State.FALLING;
-        else if(smashMode)
-            return State.SMASHING;
         else if(b2body.getLinearVelocity().x != 0)
             return State.RUNNING;
+        else if(smashMode)
+            return State.SMASHING;
         else
             return State.STANDING;
-
-
         }
 
     public void grow() {
         runGrowAnimation = true;
         marioIsBig = true;
         timeToDefineBigMario = true;
-        setBounds(getX(), getY(),getWidth(), getHeight() * 2);
         Seeker.manager.get("audio/sounds/powerup.wav", Sound.class).play();
     }
 
@@ -335,11 +337,6 @@ public class Mario extends Sprite{
         HUD.addScore(200);
         Seeker.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
         setTouching(null);
-
-    }
-
-    public void onStopSmash() {
-        brickContact = false;
     }
 
     public void hit(Enemy enemy){
@@ -349,7 +346,6 @@ public class Mario extends Sprite{
             if (marioIsBig) {
                 marioIsBig = false;
                 timeToRedefineMario = true;
-                setBounds(getX(), getY(), getWidth(), getHeight() / 2);
                 Seeker.manager.get("audio/sounds/powerdown.wav", Sound.class).play();
             } else {
                 die();
@@ -358,9 +354,12 @@ public class Mario extends Sprite{
     }
 
     public void win(){
-        marioWon = true;
-        Seeker.manager.get("audio/sounds/mariodie.wav", Sound.class).play();
+        if(!marioWon)
+            marioWon = true;
+            Seeker.manager.get("audio/sounds/win.wav", Sound.class).play();
+            Seeker.manager.get("audio/music/factory_time_loop.ogg", Music.class).stop();
 
+            b2body.applyLinearImpulse(new Vector2(0, 3f), b2body.getWorldCenter(), true);
     }
 
     public void redefineMario() {
@@ -374,7 +373,7 @@ public class Mario extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / Seeker.PPM);
+        shape.setRadius(18 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.MARIO_BIT;
         fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
@@ -382,13 +381,14 @@ public class Mario extends Sprite{
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-2 / Seeker.PPM, -6 / Seeker.PPM), new Vector2(2/ Seeker.PPM, -6 / Seeker.PPM));
+        feet.set(new Vector2(-9 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -18 / Seeker.PPM));
+        fdef.filter.categoryBits = Seeker.MARIO_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 6 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 6 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 18 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;

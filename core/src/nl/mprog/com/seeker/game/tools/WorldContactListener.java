@@ -104,10 +104,8 @@ public class WorldContactListener implements ContactListener {
             case Seeker.BRICK_BIT | Seeker.MARIO_SMASH_BIT:
                 if (fixA.getFilterData().categoryBits == Seeker.MARIO_SMASH_BIT) {
                     ((Mario) fixA.getUserData()).setTouching((null));
-                    ((Mario) fixA.getUserData()).onStopSmash();
                 } else {
                     ((Mario) fixB.getUserData()).setTouching((null));
-                    ((Mario) fixB.getUserData()).onStopSmash();
                 }
                 break;
         }

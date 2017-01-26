@@ -54,6 +54,7 @@ public class Seeker extends Game {
 		manager.load("audio/sounds/stomp.wav", Sound.class);
 		manager.load("audio/sounds/powerdown.wav", Sound.class);
 		manager.load("audio/sounds/mariodie.wav", Sound.class);
+		manager.load("audio/sounds/win.wav", Sound.class);
 
 		manager.finishLoading();
 

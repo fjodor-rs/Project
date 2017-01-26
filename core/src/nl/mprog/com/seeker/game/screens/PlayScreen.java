@@ -54,7 +54,7 @@ public class PlayScreen implements Screen {
     private Controller controller;
 
     public PlayScreen(Seeker game) {
-        textureAtlas = new TextureAtlas("wreck_it.pack");
+        textureAtlas = new TextureAtlas("hulk_it.pack");
 
         this.game = game;
         gameCam = new OrthographicCamera();
@@ -76,9 +76,9 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-//        music = Seeker.manager.get("audio/music/factory_time_loop.ogg");
-//        music.setLooping(true);
-//        music.play();
+        music = Seeker.manager.get("audio/music/factory_time_loop.ogg");
+        music.setLooping(true);
+        music.play();
 
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
@@ -177,6 +177,7 @@ public class PlayScreen implements Screen {
         }
 
         if(gameWon()){
+            game.playServices.submitScore(hud.worldTimer * 1000);
             game.setScreen(new GameWonScreen(game));
             dispose();
         }
