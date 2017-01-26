@@ -76,9 +76,9 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        music = Seeker.manager.get("audio/music/factory_time_loop.ogg");
-        music.setLooping(true);
-        music.play();
+//        music = Seeker.manager.get("audio/music/factory_time_loop.ogg");
+//        music.setLooping(true);
+//        music.play();
 
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
@@ -239,4 +239,7 @@ public class PlayScreen implements Screen {
         hud.dispose();
 
     }
+
+    public HUD getHud(){ return hud; }
+
 }

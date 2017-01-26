@@ -43,5 +43,7 @@ public class CoinBlock extends InteractiveTileObject {
         getCell().setTile(tileSet.getTile(BLANK_COIN));
         HUD.addScore(100);
     }
+
+
 }
 

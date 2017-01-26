@@ -27,6 +27,7 @@ public class Seeker extends Game {
 	public static final short MARIO_HEAD_BIT = 512;
 	public static final short END_BIT = 1024;
 	public static final short AXE_BIT = 2048;
+	public static final short MARIO_SMASH_BIT = 4096;
 
 	public SpriteBatch batch;
 
@@ -56,7 +57,7 @@ public class Seeker extends Game {
 
 		manager.finishLoading();
 
-		setScreen(new PlayScreen(this));
+		setScreen(new MainMenuScreen(this));
 	}
 
 	@Override

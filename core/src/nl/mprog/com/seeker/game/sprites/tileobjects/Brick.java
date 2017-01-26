@@ -30,5 +30,4 @@ public class Brick extends InteractiveTileObject {
         }
         Seeker.manager.get("audio/sounds/bump.wav", Sound.class).play();
     }
-
 }

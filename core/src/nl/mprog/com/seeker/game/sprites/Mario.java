@@ -18,10 +18,13 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 
+import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
+import nl.mprog.com.seeker.game.sprites.tileobjects.Brick;
+import nl.mprog.com.seeker.game.sprites.tileobjects.InteractiveTileObject;
 import nl.mprog.com.seeker.game.sprites.weapons.Axe;
 import nl.mprog.com.seeker.game.tools.Controller;
 
@@ -34,6 +37,7 @@ public class Mario extends Sprite{
 
     private PlayScreen screen;
     public boolean smashMode;
+    public boolean brickContact;
 
     public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD, WON, SMASHING};
     public State currentState;
@@ -49,6 +53,7 @@ public class Mario extends Sprite{
     private Animation growMario;
     private Animation marioSmash;
 
+    public InteractiveTileObject touching;
     public World world;
     public Body b2body;
 
@@ -111,7 +116,6 @@ public class Mario extends Sprite{
         defineMario();
         setBounds(0, 0, 52 / Seeker.PPM, 52 / Seeker.PPM);
         setRegion(marioStand);
-
         axes = new Array<Axe>();
     }
 
@@ -163,12 +167,13 @@ public class Mario extends Sprite{
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
-//
-//        EdgeShape feet = new EdgeShape();
-//        feet.set(new Vector2(-2 / Seeker.PPM, -6 / Seeker.PPM), new Vector2(2/ Seeker.PPM, -6 / Seeker.PPM));
-//        fdef.shape = feet;
-//        fdef.isSensor = false;
-//        b2body.createFixture(fdef);
+
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-6 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(6 / Seeker.PPM, -18 / Seeker.PPM));
+        fdef.filter.categoryBits = Seeker.MARIO_SMASH_BIT;
+        fdef.shape = feet;
+        fdef.isSensor = false;
+        b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
         head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 18 / Seeker.PPM));
@@ -176,9 +181,17 @@ public class Mario extends Sprite{
         fdef.shape = head;
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);
+
+        smashMode = false;
+
     }
 
     public void update(float dt){
+
+        if (screen.getHud().isTimeUp() && !isDead()) {
+            die();
+        }
+
         if(marioIsBig){
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2 - 6 / Seeker.PPM);
         }
@@ -198,7 +211,6 @@ public class Mario extends Sprite{
             if(axe.isDestroyed())
                 axes.removeValue(axe, true);
         }
-
     }
 
     public TextureRegion getFrame(Float dt){
@@ -225,8 +237,13 @@ public class Mario extends Sprite{
                 break;
             case SMASHING:
                 region = (TextureRegion) marioSmash.getKeyFrame(stateTimer, true);
+                if (touching != null) {
+                    onSmashBrick(this.touching);
+                }
                 break;
             case FALLING:
+                region = marioIsBig ? bigMarioJump : marioJump;
+                break;
             case STANDING:
             default:
                 region = marioIsBig ? bigMarioStand : marioStand;
@@ -251,7 +268,7 @@ public class Mario extends Sprite{
     public State getState(){
         if(marioWon)
             return State.WON;
-        if(marioIsDead)
+        else if(marioIsDead)
             return State.DEAD;
         else if(runGrowAnimation)
             return State.GROWING;
@@ -305,6 +322,24 @@ public class Mario extends Sprite{
 
     public boolean isBig() {
         return marioIsBig;
+    }
+
+    public void setTouching(InteractiveTileObject object) {
+        touching = object;
+    }
+
+    public void onSmashBrick(InteractiveTileObject brick) {
+
+        brick.setCategoryFilter(Seeker.DESTROYED_BIT);
+        brick.getCell().setTile(null);
+        HUD.addScore(200);
+        Seeker.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
+        setTouching(null);
+
+    }
+
+    public void onStopSmash() {
+        brickContact = false;
     }
 
     public void hit(Enemy enemy){

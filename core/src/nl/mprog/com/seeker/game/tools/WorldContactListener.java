@@ -79,6 +79,14 @@ public class WorldContactListener implements ContactListener {
                 else
                     ((Axe)fixB.getUserData()).setToDestroy();
                 break;
+            case Seeker.BRICK_BIT | Seeker.MARIO_SMASH_BIT:
+                if(fixA.getFilterData().categoryBits == Seeker.MARIO_SMASH_BIT) {
+                    ((Mario) fixA.getUserData()).setTouching((InteractiveTileObject) fixB.getUserData());
+                }
+                else {
+                    ((Mario) fixB.getUserData()).setTouching((InteractiveTileObject) fixA.getUserData());
+                }
+                break;
         }
 
     }
@@ -86,6 +94,23 @@ public class WorldContactListener implements ContactListener {
     @Override
     public void endContact(Contact contact) {
 
+
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
+
+        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+
+        switch(cDef) {
+            case Seeker.BRICK_BIT | Seeker.MARIO_SMASH_BIT:
+                if (fixA.getFilterData().categoryBits == Seeker.MARIO_SMASH_BIT) {
+                    ((Mario) fixA.getUserData()).setTouching((null));
+                    ((Mario) fixA.getUserData()).onStopSmash();
+                } else {
+                    ((Mario) fixB.getUserData()).setTouching((null));
+                    ((Mario) fixB.getUserData()).onStopSmash();
+                }
+                break;
+        }
     }
 
     @Override
