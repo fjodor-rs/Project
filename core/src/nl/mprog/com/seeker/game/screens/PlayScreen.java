@@ -22,6 +22,7 @@ import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.items.Coin;
 import nl.mprog.com.seeker.game.sprites.items.Item;
 import nl.mprog.com.seeker.game.sprites.items.ItemDef;
 import nl.mprog.com.seeker.game.sprites.items.Mushroom;
@@ -94,6 +95,9 @@ public class PlayScreen implements Screen {
             ItemDef itemDef = itemsToSpawn.poll();
             if(itemDef.type == Mushroom.class){
                 items.add(new Mushroom(this, itemDef.position.x, itemDef.position.y));
+            }
+            else if(itemDef.type == Coin.class){
+                items.add(new Coin(this, itemDef.position.x, itemDef.position.y));
             }
         }
     }

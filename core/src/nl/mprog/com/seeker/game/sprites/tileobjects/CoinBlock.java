@@ -9,6 +9,7 @@ import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.items.Coin;
 import nl.mprog.com.seeker.game.sprites.items.ItemDef;
 import nl.mprog.com.seeker.game.sprites.items.Mushroom;
 
@@ -37,13 +38,12 @@ public class CoinBlock extends InteractiveTileObject {
                 Seeker.manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play();
             }
             else{
+                screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 16 / Seeker.PPM),
+                        Coin.class));
                 Seeker.manager.get("audio/sounds/coin.wav", Sound.class).play();
             }
         }
         getCell().setTile(tileSet.getTile(BLANK_COIN));
-        HUD.addScore(100);
     }
-
-
 }
 

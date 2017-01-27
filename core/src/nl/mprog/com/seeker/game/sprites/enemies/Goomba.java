@@ -63,7 +63,7 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(6 / Seeker.PPM);
+        shape.setRadius(8 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.ENEMY_BIT;
         fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.OBJECT_BIT | Seeker.MARIO_BIT;
 
@@ -72,10 +72,10 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
 
         PolygonShape head = new PolygonShape();
         Vector2[] vertix = new Vector2[4];
-        vertix[0] = new Vector2(-5, 8).scl(1 / Seeker.PPM);
-        vertix[1] = new Vector2(5, 8).scl(1 / Seeker.PPM);
-        vertix[2] = new Vector2(-3, 3).scl(1 / Seeker.PPM);
-        vertix[3] = new Vector2(3, 3).scl(1 / Seeker.PPM);
+        vertix[0] = new Vector2(-6, 10).scl(1 / Seeker.PPM);
+        vertix[1] = new Vector2(6, 10).scl(1 / Seeker.PPM);
+        vertix[2] = new Vector2(-4, 3).scl(1 / Seeker.PPM);
+        vertix[3] = new Vector2(4, 3).scl(1 / Seeker.PPM);
         head.set(vertix);
 
         fdef.shape = head;

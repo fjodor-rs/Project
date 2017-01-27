@@ -140,7 +140,7 @@ public class Mario extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(18 / Seeker.PPM);
+        shape.setRadius(16 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.MARIO_BIT;
         fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
@@ -148,14 +148,14 @@ public class Mario extends Sprite{
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-9 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -18 / Seeker.PPM));
+        feet.set(new Vector2(-9 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 18 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 16 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;
@@ -172,7 +172,7 @@ public class Mario extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(18 / Seeker.PPM);
+        shape.setRadius(16 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.MARIO_BIT;
         fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
@@ -180,14 +180,14 @@ public class Mario extends Sprite{
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-9 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -18 / Seeker.PPM));
+        feet.set(new Vector2(-9 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 18 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 16 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;
@@ -354,12 +354,13 @@ public class Mario extends Sprite{
     }
 
     public void win(){
-        if(!marioWon)
+        if(!marioWon) {
             marioWon = true;
             Seeker.manager.get("audio/sounds/win.wav", Sound.class).play();
             Seeker.manager.get("audio/music/factory_time_loop.ogg", Music.class).stop();
 
             b2body.applyLinearImpulse(new Vector2(0, 3f), b2body.getWorldCenter(), true);
+        }
     }
 
     public void redefineMario() {
@@ -373,7 +374,7 @@ public class Mario extends Sprite{
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(18 / Seeker.PPM);
+        shape.setRadius(16 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.MARIO_BIT;
         fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
@@ -381,14 +382,14 @@ public class Mario extends Sprite{
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-9 / Seeker.PPM, -18 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -18 / Seeker.PPM));
+        feet.set(new Vector2(-9 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 18 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 18 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 16 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.MARIO_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;

@@ -1,25 +1,25 @@
 package nl.mprog.com.seeker.game.sprites.items;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import nl.mprog.com.seeker.game.Seeker;
+import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Mario;
 
 /**
- * Created by Fjodor on 2017/01/15.
+ * Created by Fjodor on 2017/01/27.
  */
 
-public class Mushroom extends Item {
+public class Coin extends Item {
 
-    public Mushroom(PlayScreen screen, float x, float y) {
+    public Coin(PlayScreen screen, float x, float y) {
         super(screen, x, y);
-        setRegion(screen.getAtlas().findRegion("computer"), 0, 0, 256, 256);
-        velocity = new Vector2(0.7f, 0);
+        setRegion(screen.getAtlas().findRegion("coin"), 0, 0, 256, 256);
     }
 
     @Override
@@ -31,27 +31,24 @@ public class Mushroom extends Item {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(7/ Seeker.PPM);
+        shape.setRadius(7 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.ITEM_BIT;
         fdef.filter.maskBits = Seeker.MARIO_BIT | Seeker.OBJECT_BIT | Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);
-
-        setBounds(getX(), getY(), 24 / Seeker.PPM, 24 / Seeker.PPM);
     }
 
     @Override
     public void use(Mario mario) {
         destroy();
-        mario.grow();
+        Seeker.manager.get("audio/sounds/coin.wav", Sound.class).play();
+        HUD.addScore(100);
     }
 
     @Override
     public void update(float dt) {
         super.update(dt);
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
-        velocity.y = body.getLinearVelocity().y;
-        body.setLinearVelocity(velocity);
     }
 }
