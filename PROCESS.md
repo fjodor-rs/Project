@@ -28,7 +28,7 @@
   * Create unique events for when certain collisions happen
 * Created designs for the different screens of the application
  
- ## Day 4
+## Day 4
  
 * Create enemies
   * Create body and setup textures for bodies
@@ -55,4 +55,43 @@
 ## Day 8
 
 * Fixed PROCESS.md after it got deleted
-  
+* Implemented the Leaderboard
+* Created items in the game
+* Made ability for player sprite to morph and take multiple hits
+  * Made animations for the morphed sprite
+
+## Day 9
+* Created Main Menu screen
+* Created Game Won screen
+* Set score in Leaderboard and finally got it working
+
+## Day 10
+* Searched for sprites for Jaap
+* Implemted new pack and added first sprite texture
+
+## Day 11
+* Created running and jumping animations for Jaap
+* Searched for music and sound effects
+* Started implementing Axe weapon
+
+## Day 12
+* Axe weapon not working correctly and not able to implement, dropped the idea
+* Created ground smash animations for Jaap
+* Implemented time limit, if 0 is reached player dies
+* Time now saved after Game Won and send to leaderboard
+
+## Day 13
+* Started working on making smash collide with bricks
+* Started working on "Hulk Jaap"
+* Checked code in BetterCodeHub and started refactoring parts of the code
+
+## Day 14
+* Bricks now break when smashed, collision still not perfect
+* Jaap can now morph into Hulk Jaap, animations and textures for Hulk Jaap working
+* Prepared demo level to show new functions
+
+## Day 15
+* Improved Main Menu, Game Won and Game Over's design
+* Looked if it is possible to implement achievements or a second leaderboard before monday
+
+
