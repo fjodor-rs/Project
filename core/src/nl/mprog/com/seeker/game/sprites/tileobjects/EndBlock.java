@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.MapObject;
 
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
-import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
  * Created by Fjodor on 2017/01/19.
@@ -18,7 +18,7 @@ public class EndBlock extends InteractiveTileObject {
     }
 
     @Override
-    public void onHeadHit(Mario mario) {
+    public void onHeadHit(Jaap jaap) {
 
     }
 }

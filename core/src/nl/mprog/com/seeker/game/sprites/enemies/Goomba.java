@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
-import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
  * Created by Fjodor on 2017/01/12.
@@ -65,7 +65,7 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
         CircleShape shape = new CircleShape();
         shape.setRadius(8 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.ENEMY_BIT;
-        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.OBJECT_BIT | Seeker.MARIO_BIT;
+        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.OBJECT_BIT | Seeker.JAAP_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
@@ -85,7 +85,7 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
     }
 
     @Override
-    public void hitOnHead(Mario mario) {
+    public void hitOnHead(Jaap jaap) {
         setToDestroy = true;
         Seeker.manager.get("audio/sounds/stomp.wav", Sound.class).play();
     }

@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
-import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
  * Created by Fjodor on 2017/01/15.
@@ -33,7 +33,7 @@ public abstract class Item extends Sprite {
     }
 
     public abstract void defineItem();
-    public abstract void use(Mario mario);
+    public abstract void use(Jaap jaap);
 
     public void update(float dt){
         if(toDestroy && !destroyed){

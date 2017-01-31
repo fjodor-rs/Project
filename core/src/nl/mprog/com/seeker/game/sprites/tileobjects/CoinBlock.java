@@ -6,9 +6,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.math.Vector2;
 
 import nl.mprog.com.seeker.game.Seeker;
-import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
-import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 import nl.mprog.com.seeker.game.sprites.items.Coin;
 import nl.mprog.com.seeker.game.sprites.items.ItemDef;
 import nl.mprog.com.seeker.game.sprites.items.Mushroom;
@@ -28,7 +27,7 @@ public class CoinBlock extends InteractiveTileObject {
     }
 
     @Override
-    public void onHeadHit(Mario mario) {
+    public void onHeadHit(Jaap jaap) {
         if(getCell().getTile().getId() == BLANK_COIN)
             Seeker.manager.get("audio/sounds/bump.wav", Sound.class).play();
         else{

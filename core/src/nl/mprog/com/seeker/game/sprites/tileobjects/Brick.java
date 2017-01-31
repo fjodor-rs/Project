@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.MapObject;
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
-import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
  * Created by Fjodor on 2017/01/10.
@@ -21,8 +21,8 @@ public class Brick extends InteractiveTileObject {
     }
 
     @Override
-    public void onHeadHit(Mario mario) {
-        if(mario.isBig()){
+    public void onHeadHit(Jaap jaap) {
+        if(jaap.isBig()){
             setCategoryFilter(Seeker.DESTROYED_BIT);
             getCell().setTile(null);
             HUD.addScore(200);

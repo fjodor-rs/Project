@@ -20,8 +20,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.scenes.HUD;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
-import nl.mprog.com.seeker.game.sprites.Mario;
 import nl.mprog.com.seeker.game.sprites.items.Coin;
 import nl.mprog.com.seeker.game.sprites.items.Item;
 import nl.mprog.com.seeker.game.sprites.items.ItemDef;
@@ -47,7 +47,7 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer b2dr;
     private B2WorldCreator creator;
 
-    private Mario mario;
+    private Jaap jaap;
 
     private Array<Item> items;
     private LinkedBlockingQueue<ItemDef> itemsToSpawn;
@@ -72,7 +72,7 @@ public class PlayScreen implements Screen {
 
         creator = new B2WorldCreator(this);
 
-        mario = new Mario(this);
+        jaap = new Jaap(this);
         controller = new Controller(game.batch);
 
         world.setContactListener(new WorldContactListener());
@@ -112,17 +112,17 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt){
-        if(mario.currentState != Mario.State.DEAD) {
-            if (controller.isUpPressed() && mario.b2body.getLinearVelocity().y == 0)
-                mario.b2body.applyLinearImpulse(new Vector2(0, 4f), mario.b2body.getWorldCenter(), true); //true - will this impulse wake object.
-            if (controller.isRightPressed() && mario.b2body.getLinearVelocity().x <= 2)
-                mario.b2body.applyLinearImpulse(new Vector2(0.1f, 0), mario.b2body.getWorldCenter(), true);
-            if (controller.isLeftPressed() && mario.b2body.getLinearVelocity().x >= -2)
-                mario.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), mario.b2body.getWorldCenter(), true);
+        if(jaap.currentState != Jaap.State.DEAD) {
+            if (controller.isUpPressed() && jaap.b2body.getLinearVelocity().y == 0)
+                jaap.b2body.applyLinearImpulse(new Vector2(0, 4f), jaap.b2body.getWorldCenter(), true); //true - will this impulse wake object.
+            if (controller.isRightPressed() && jaap.b2body.getLinearVelocity().x <= 2)
+                jaap.b2body.applyLinearImpulse(new Vector2(0.1f, 0), jaap.b2body.getWorldCenter(), true);
+            if (controller.isLeftPressed() && jaap.b2body.getLinearVelocity().x >= -2)
+                jaap.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), jaap.b2body.getWorldCenter(), true);
             if(controller.isDownPressed())
-                mario.smashMode = true;
+                jaap.smashMode = true;
             else
-                mario.smashMode = false;
+                jaap.smashMode = false;
         }
     }
 
@@ -131,10 +131,10 @@ public class PlayScreen implements Screen {
         handleInput(dt);
         handleSpawningItems();
         world.step(1/60f, 6, 2);
-        mario.update(dt);
+        jaap.update(dt);
         for(Enemy enemy : creator.getEnemies()){
             enemy.update(dt);
-            if(enemy.getX() < mario.getX() + 224 / Seeker.PPM)
+            if(enemy.getX() < jaap.getX() + 224 / Seeker.PPM)
                 enemy.b2body.setActive(true);
         }
         for(Item item: items){
@@ -142,8 +142,8 @@ public class PlayScreen implements Screen {
         }
         hud.update(dt);
 
-        if(mario.currentState != Mario.State.DEAD) {
-            gameCam.position.x = mario.b2body.getPosition().x;
+        if(jaap.currentState != Jaap.State.DEAD) {
+            gameCam.position.x = jaap.b2body.getPosition().x;
         }
 
         gameCam.update();
@@ -163,7 +163,7 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
-        mario.draw(game.batch);
+        jaap.draw(game.batch);
         for(Enemy enemy : creator.getEnemies())
             enemy.draw(game.batch);
         for(Item item : items)
@@ -188,7 +188,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver(){
-        if(mario.currentState == Mario.State.DEAD && mario.getStateTimer() > 3){
+        if(jaap.currentState == Jaap.State.DEAD && jaap.getStateTimer() > 3){
             return true;
         }
 
@@ -196,7 +196,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameWon(){
-        if(mario.currentState == Mario.State.WON && mario.getStateTimer() > 3){
+        if(jaap.currentState == Jaap.State.WON && jaap.getStateTimer() > 3){
             return true;
         }
 

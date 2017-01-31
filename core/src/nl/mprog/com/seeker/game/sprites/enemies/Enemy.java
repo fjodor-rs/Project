@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 import nl.mprog.com.seeker.game.screens.PlayScreen;
-import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
  * Created by Fjodor on 2017/01/12.
@@ -29,7 +29,7 @@ public abstract class Enemy extends Sprite {
 
     protected abstract void defineEnemy();
     public abstract void update(float dt);
-    public abstract void hitOnHead(Mario mario);
+    public abstract void hitOnHead(Jaap jaap);
     public abstract void hitByEnemy(Enemy enemy);
 
     public void reverseVelocity(boolean x, boolean y){

@@ -16,7 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
-import nl.mprog.com.seeker.game.sprites.Mario;
+import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
  * Created by Fjodor on 2017/01/10.
@@ -53,7 +53,7 @@ public abstract class InteractiveTileObject {
         fixture = body.createFixture(fdef);
     }
 
-    public abstract void onHeadHit(Mario mario);
+    public abstract void onHeadHit(Jaap jaap);
 
     public void setCategoryFilter(short filterBit){
         Filter filter = new Filter();
