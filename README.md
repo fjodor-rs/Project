@@ -3,8 +3,8 @@
 ## Problem
 
 This app will function as an easy way of relieving stress or easing boredom.
-The user will control a sprite moving it across the screen towards a goal,
-solving jumping puzzles and other problems along the way.
+The user will play as Jaap controlling him and moving him across the screen towards the goal,
+trying to get there as fast as possible, or gaining as high a score as possible.
 
 ![](doc/Game Example.png)
 
@@ -16,15 +16,15 @@ Possible additions to the application will be discussed at the end of the docume
 
 ## Sources
 
-The app will be build using the LibGDX Java game development framework made by Badlogic Games.
-The levels, using sprites and tiles, will be created using Tiled.
-The app will also use Tiled to make specific tiles into object for collision purposes.
-Authentication and data storing will be done using the Firebase application platform.
+The app was build using the LibGDX Java game development framework made by Badlogic Games.
+The levels, using sprites and tiles, were created using Tiled.
+The app also uses Tiled to make specific tiles into object for collision purposes.
+Authentication and the Leaderboard are done using Google Play Developer Console.
 
 ## Separation of Concerns
 
-All the game related code will be in the core part of the app, created using libGDX.
-Other parts, for example the starting screen and authentication, will be made in the android part of the app.
+All the game related code is in the core part of the app, created using libGDX.
+Only the AndroidLauncher and the game's assets are in the android part of the app.
 
 In core the app will be using a package called scenes for all the classes that contain the labels placed over the game's interface.
 Core will also contain a package called screens which will contain the different playscreen classes for different levels.
@@ -36,8 +36,7 @@ It will also contain a class displaying the start screen.
 
 ## Application Programming Interface
 
-No external components (APIs) are, as of yet, necessary for the implementations of this application.
-
+The Google Play Services API is used to implement the Leaderboard
 ## Problems
 
 A problem that might arise is the lack of tilesets and sprites.
