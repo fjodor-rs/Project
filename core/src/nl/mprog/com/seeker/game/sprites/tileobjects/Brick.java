@@ -22,7 +22,7 @@ public class Brick extends InteractiveTileObject {
 
     @Override
     public void onHeadHit(Jaap jaap) {
-        if(jaap.isBig()){
+        if(jaap.isHulk()){
             setCategoryFilter(Seeker.DESTROYED_BIT);
             getCell().setTile(null);
             HUD.addScore(200);

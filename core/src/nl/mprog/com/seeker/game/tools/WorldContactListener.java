@@ -10,10 +10,13 @@ import nl.mprog.com.seeker.game.sprites.Jaap;
 import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.tileobjects.InteractiveTileObject;
 import nl.mprog.com.seeker.game.sprites.items.Item;
-import nl.mprog.com.seeker.game.sprites.weapons.Axe;
 
 /**
- * Created by Fjodor on 2017/01/12.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Is called when objects come into contact.
+ * Every object has a unique bit, this class decides what happends when two objects come into contact.
  */
 
 public class WorldContactListener implements ContactListener {
@@ -72,12 +75,6 @@ public class WorldContactListener implements ContactListener {
                     ((Jaap) fixA.getUserData()).win();
                 else
                     ((Jaap) fixB.getUserData()).win();
-                break;
-            case Seeker.AXE_BIT | Seeker.OBJECT_BIT:
-                if(fixA.getFilterData().categoryBits == Seeker.AXE_BIT)
-                    ((Axe)fixA.getUserData()).setToDestroy();
-                else
-                    ((Axe)fixB.getUserData()).setToDestroy();
                 break;
             case Seeker.BRICK_BIT | Seeker.JAAP_SMASH_BIT:
                 if(fixA.getFilterData().categoryBits == Seeker.JAAP_SMASH_BIT) {

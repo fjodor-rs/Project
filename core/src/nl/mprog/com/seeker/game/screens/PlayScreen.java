@@ -25,10 +25,21 @@ import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.items.Coin;
 import nl.mprog.com.seeker.game.sprites.items.Item;
 import nl.mprog.com.seeker.game.sprites.items.ItemDef;
-import nl.mprog.com.seeker.game.sprites.items.Mushroom;
+import nl.mprog.com.seeker.game.sprites.items.Hulkifier;
 import nl.mprog.com.seeker.game.tools.B2WorldCreator;
 import nl.mprog.com.seeker.game.tools.Controller;
 import nl.mprog.com.seeker.game.tools.WorldContactListener;
+
+/**
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * The game screen implements the game, takes in the tiled textures, objects and sprites
+ * and renders them and updates them. It also has a orthographic camera to follow the
+ * player across the level.
+ *
+ * From here the screen is also changed to the GameOverScreen or the GameWonScreen when appropriate
+ */
 
 public class PlayScreen implements Screen {
 
@@ -93,8 +104,8 @@ public class PlayScreen implements Screen {
     public void handleSpawningItems(){
         if(!itemsToSpawn.isEmpty()){
             ItemDef itemDef = itemsToSpawn.poll();
-            if(itemDef.type == Mushroom.class){
-                items.add(new Mushroom(this, itemDef.position.x, itemDef.position.y));
+            if(itemDef.type == Hulkifier.class){
+                items.add(new Hulkifier(this, itemDef.position.x, itemDef.position.y));
             }
             else if(itemDef.type == Coin.class){
                 items.add(new Coin(this, itemDef.position.x, itemDef.position.y));
@@ -181,9 +192,12 @@ public class PlayScreen implements Screen {
         }
 
         if(gameWon()){
-            game.playServices.submitScore(hud.worldTimer * 1000);
+            game.playServices.submitTime(hud.worldTimer * 1000);
             game.setScreen(new GameWonScreen(game));
             dispose();
+        }
+        if(jaap.isHulk()){
+            game.playServices.unlockAchievement();
         }
     }
 

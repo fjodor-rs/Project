@@ -13,8 +13,13 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import nl.mprog.com.seeker.game.Seeker;
 
+
 /**
- * Created by Fjodor on 2017/01/09.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Places text labels over the PlayScreen and keeps track of the time and score.
+ * Also tracks if the time is up and kills Jaap if that is the case.
  */
 
 public class HUD implements Disposable {
@@ -31,7 +36,7 @@ public class HUD implements Disposable {
     Label timeLabel;
     Label levelLabel;
     Label worldLabel;
-    Label marioLabel;
+    Label jaapLabel;
 
     public HUD(SpriteBatch sb){
         worldTimer = 300;
@@ -49,20 +54,18 @@ public class HUD implements Disposable {
         scoreLabel =new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         levelLabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        marioLabel = new Label("MARIO", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        worldLabel = new Label("LEVEL", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        jaapLabel = new Label("JAAP", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        //add our labels to our table, padding the top, and giving them all equal width with expandX
-        table.add(marioLabel).expandX().padTop(10);
+        table.add(jaapLabel).expandX().padTop(10);
         table.add(worldLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
-        //add a second row to our table
+
         table.row();
         table.add(scoreLabel).expandX();
         table.add(levelLabel).expandX();
         table.add(countdownLabel).expandX();
 
-        //add our table to the stage
         stage.addActor(table);
 
     }

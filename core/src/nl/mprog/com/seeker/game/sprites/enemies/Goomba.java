@@ -16,7 +16,11 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
- * Created by Fjodor on 2017/01/12.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Class that sets the textures and animations for the goomba sprite, updates them
+ * and implements them for all the goombas.
  */
 
 public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {

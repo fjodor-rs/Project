@@ -10,7 +10,7 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 import nl.mprog.com.seeker.game.sprites.items.Coin;
 import nl.mprog.com.seeker.game.sprites.items.ItemDef;
-import nl.mprog.com.seeker.game.sprites.items.Mushroom;
+import nl.mprog.com.seeker.game.sprites.items.Hulkifier;
 
 /**
  * Created by Fjodor on 2017/01/10.
@@ -33,7 +33,7 @@ public class CoinBlock extends InteractiveTileObject {
         else{
             if(object.getProperties().containsKey("mushroom")){
                 screen.spawnItem(new ItemDef(new Vector2(body.getPosition().x, body.getPosition().y + 16 / Seeker.PPM),
-                        Mushroom.class));
+                        Hulkifier.class));
                 Seeker.manager.get("audio/sounds/powerup_spawn.wav", Sound.class).play();
             }
             else{

@@ -107,11 +107,11 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
 	public void unlockAchievement()
 	{
 		Games.Achievements.unlock(gameHelper.getApiClient(),
-				getString(R.string.achievement_achievements));
+				getString(R.string.achievement_jaap_angry_jaap_smash));
 	}
 
 	@Override
-	public void submitScore(int highScore)
+	public void submitTime(int highScore)
 	{
 		if (isSignedIn() == true)
 		{
@@ -119,23 +119,22 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
 					getString(R.string.leaderboard_best_time), highScore);
 		}
 	}
-//
-//	@Override
-//	public void showAchievement()
-//	{
-//		if (isSignedIn() == true)
-//		{
-//			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient(),
-//					getString(R.string.achievement_achievements)), REQUEST_CODE);
-//		}
-//		else
-//		{
-//			signIn();
-//		}
-//	}
 
 	@Override
-	public void showScore()
+	public void showAchievement()
+	{
+		if (isSignedIn() == true)
+		{
+			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), REQUEST_CODE);
+		}
+		else
+		{
+			signIn();
+		}
+	}
+
+	@Override
+	public void showTime()
 	{
 		if (isSignedIn() == true)
 		{

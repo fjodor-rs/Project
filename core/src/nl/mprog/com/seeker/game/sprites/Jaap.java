@@ -18,16 +18,21 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 
+import nl.mprog.com.seeker.game.PlayServices;
 import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.sprites.enemies.Enemy;
 import nl.mprog.com.seeker.game.sprites.enemies.Turtle;
 import nl.mprog.com.seeker.game.sprites.tileobjects.InteractiveTileObject;
-import nl.mprog.com.seeker.game.sprites.weapons.Axe;
 
 /**
- * Created by Fjodor on 2017/01/10.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Deals with all the animations, textures and states of Jaap and his Hulk Mode.
+ * Also has methods for when Jaap or Hulk collide with something.
+ * Finally implements Jaap dieing or winning the game.
  */
 
 public class Jaap extends Sprite{
@@ -66,8 +71,6 @@ public class Jaap extends Sprite{
     private boolean timeToRedefineJaap;
     private boolean jaapIsDead;
     private boolean jaapWon;
-
-    private Array<Axe> axes;
 
     public Jaap(PlayScreen screen){
         this.screen = screen;
@@ -127,7 +130,6 @@ public class Jaap extends Sprite{
         defineJaap();
         setBounds(0, 0, 52 / Seeker.PPM, 52 / Seeker.PPM);
         setRegion(jaapStand);
-        axes = new Array<Axe>();
     }
 
     public void defineHulk(){
@@ -210,12 +212,6 @@ public class Jaap extends Sprite{
         if(timeToRedefineJaap){
             redefineJaap();
         }
-
-        for(Axe axe: axes){
-            axe.update(dt);
-            if(axe.isDestroyed())
-                axes.removeValue(axe, true);
-        }
     }
 
     public TextureRegion getFrame(Float dt){
@@ -294,6 +290,7 @@ public class Jaap extends Sprite{
         jaapIsHulk = true;
         timeToDefineHulk = true;
         Seeker.manager.get("audio/sounds/powerup.wav", Sound.class).play();
+
     }
 
     public void die() {
@@ -322,7 +319,7 @@ public class Jaap extends Sprite{
         return stateTimer;
     }
 
-    public boolean isBig() {
+    public boolean isHulk() {
         return jaapIsHulk;
     }
 
@@ -397,15 +394,4 @@ public class Jaap extends Sprite{
 
         timeToRedefineJaap = false;
     }
-
-    public void throwAxe(){
-        axes.add(new Axe(screen, b2body.getPosition().x, b2body.getPosition().y, runningRight ? true : false));
-    }
-
-    public void draw(Batch batch) {
-        super.draw(batch);
-        for (Axe ball : axes)
-            ball.draw(batch);
-    }
-
 }

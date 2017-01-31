@@ -21,7 +21,11 @@ import nl.mprog.com.seeker.game.sprites.enemies.Goomba;
 import nl.mprog.com.seeker.game.sprites.tileobjects.EndBlock;
 
 /**
- * Created by Fjodor on 2017/01/10.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Builds all the object layers loaded in from tiled into the correct objects.
+ * This is used for blocks and for enemy sprites.
  */
 
 public class B2WorldCreator {

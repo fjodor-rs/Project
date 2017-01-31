@@ -16,7 +16,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import nl.mprog.com.seeker.game.Seeker;
 
 /**
- * Created by Fjodor on 2017/01/16.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Screen that shows when the player dies.
+ * Gives you the option to play again or to go back to the main menu.
  */
 
 public class GameOverScreen implements Screen {

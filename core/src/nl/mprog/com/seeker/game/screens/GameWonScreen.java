@@ -21,7 +21,10 @@ import nl.mprog.com.seeker.game.Seeker;
 
 
 /**
- * Created by Fjodor on 2017/01/19.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Screen that shows when you won the game.
  */
 
 public class GameWonScreen implements Screen{
@@ -57,7 +60,7 @@ public class GameWonScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                game.playServices.showScore();
+                game.playServices.showTime();
             }
         });
         stage.addActor(button);
@@ -100,6 +103,6 @@ public class GameWonScreen implements Screen{
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 }

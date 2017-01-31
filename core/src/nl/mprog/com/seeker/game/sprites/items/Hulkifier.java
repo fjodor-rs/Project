@@ -9,13 +9,17 @@ import nl.mprog.com.seeker.game.Seeker;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
+
 /**
- * Created by Fjodor on 2017/01/15.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ *
  */
 
-public class Mushroom extends Item {
+public class Hulkifier extends Item {
 
-    public Mushroom(PlayScreen screen, float x, float y) {
+    public Hulkifier(PlayScreen screen, float x, float y) {
         super(screen, x, y);
         setRegion(screen.getAtlas().findRegion("computer"), 0, 0, 256, 256);
         velocity = new Vector2(0.7f, 0);

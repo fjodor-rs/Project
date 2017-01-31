@@ -4,7 +4,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.ClasspathFileHandleResolver;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Created by Fjodor on 2017/01/15.
+ * This class defines the items type and position.
  */
 
 public class ItemDef {

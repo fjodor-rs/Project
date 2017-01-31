@@ -11,7 +11,10 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
- * Created by Fjodor on 2017/01/15.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Abstract class used as a base for all items.
  */
 
 public abstract class Item extends Sprite {

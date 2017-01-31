@@ -1,7 +1,10 @@
 package nl.mprog.com.seeker.game.tools;
 
 /**
- * Created by Fjodor on 2017/01/10.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Implements the onscreen controller that can be used to control the player.
  */
 
 
@@ -35,14 +38,12 @@ public class Controller {
     public Table table;
     public Table table2;
 
-    //Constructor.
     public Controller(SpriteBatch spriteBatch) {
         camera = new OrthographicCamera();
         viewport = new FitViewport(Seeker.V_WIDTH, Seeker.V_HEIGHT, camera);
         stage = new Stage(viewport, spriteBatch);
         Gdx.input.setInputProcessor(stage);
 
-        //Buttons with images.
         buttonUp = new Image(new Texture("buttonup.png"));
         buttonUp.setSize(25, 25);
         buttonUp.addListener(new InputListener() {
@@ -100,12 +101,8 @@ public class Controller {
             }
         });
 
-        //Table with buttons.
         table = new Table();
         table2 = new Table();
-
-        table.debug();
-        table2.debug();
 
         table.left().bottom().padLeft(20);
         table2.setFillParent(true);
@@ -131,7 +128,6 @@ public class Controller {
         viewport.update(width, height);
     }
 
-    //Getters.
     public boolean isUpPressed() {
         return upPressed;
     }

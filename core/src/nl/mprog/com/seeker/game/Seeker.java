@@ -26,8 +26,7 @@ public class Seeker extends Game {
 	public static final short ITEM_BIT = 256;
 	public static final short JAAP_HEAD_BIT = 512;
 	public static final short END_BIT = 1024;
-	public static final short AXE_BIT = 2048;
-	public static final short JAAP_SMASH_BIT = 4096;
+	public static final short JAAP_SMASH_BIT = 2048;
 
 	public SpriteBatch batch;
 
