@@ -40,7 +40,8 @@ public class Hulkifier extends Item {
         CircleShape shape = new CircleShape();
         shape.setRadius(7/ Seeker.PPM);
         fdef.filter.categoryBits = Seeker.ITEM_BIT;
-        fdef.filter.maskBits = Seeker.JAAP_BIT | Seeker.OBJECT_BIT | Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT;
+        fdef.filter.maskBits = Seeker.JAAP_BIT | Seeker.OBJECT_BIT
+                | Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT;
 
         fdef.shape = shape;
         body.createFixture(fdef).setUserData(this);

@@ -182,20 +182,24 @@ public class Jaap extends Sprite{
         CircleShape shape = new CircleShape();
         shape.setRadius(16 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.JAAP_BIT;
-        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
+        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT |
+                Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT |
+                Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-15 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(15 / Seeker.PPM, -16 / Seeker.PPM));
+        feet.set(new Vector2(-15 / Seeker.PPM, -16 / Seeker.PPM),
+                new Vector2(15 / Seeker.PPM, -16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.JAAP_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 16 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 16 / Seeker.PPM));
+        head.set(new Vector2(-2 / Seeker.PPM, 16 / Seeker.PPM),
+                new Vector2(2 / Seeker.PPM, 16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.JAAP_HEAD_BIT;
         fdef.shape = head;
         fdef.isSensor = true;
@@ -296,10 +300,12 @@ public class Jaap extends Sprite{
                 region = jaapIsHulk ? hulkJump : jaapJump;
                 break;
             case RUNNING:
-                region = jaapIsHulk ? (TextureRegion) hulkRun.getKeyFrame(stateTimer, true) : (TextureRegion) jaapRun.getKeyFrame(stateTimer, true);
+                region = jaapIsHulk ? (TextureRegion) hulkRun.getKeyFrame(stateTimer, true)
+                        : (TextureRegion) jaapRun.getKeyFrame(stateTimer, true);
                 break;
             case SMASHING:
-                region = jaapIsHulk ? (TextureRegion) hulkSmash.getKeyFrame(stateTimer, true) : (TextureRegion) jaapSmash.getKeyFrame(stateTimer, true);
+                region = jaapIsHulk ? (TextureRegion) hulkSmash.getKeyFrame(stateTimer, true)
+                        : (TextureRegion) jaapSmash.getKeyFrame(stateTimer, true);
                 if (touching != null) {
                     onSmashBrick(this.touching);
                 }
@@ -340,7 +346,8 @@ public class Jaap extends Sprite{
             return State.DEAD;
         else if(runHulkAnimation)
             return State.HULKING;
-        else if(b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
+        else if(b2body.getLinearVelocity().y > 0
+                || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
             return State.JUMPING;
         else if(b2body.getLinearVelocity().y < 0)
             return State.FALLING;

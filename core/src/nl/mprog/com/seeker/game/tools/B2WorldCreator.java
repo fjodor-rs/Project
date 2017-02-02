@@ -49,7 +49,8 @@ public class B2WorldCreator {
 
                 if (i < 4){
                     bdef.type = BodyDef.BodyType.StaticBody;
-                    bdef.position.set((rect.getX() + rect.getWidth() / 2) / Seeker.PPM, (rect.getY() + rect.getHeight() / 2) / Seeker.PPM);
+                    bdef.position.set((rect.getX() + rect.getWidth() / 2) / Seeker.PPM,
+                            (rect.getY() + rect.getHeight() / 2) / Seeker.PPM);
 
                     body = world.createBody(bdef);
 
@@ -59,7 +60,8 @@ public class B2WorldCreator {
                 }
                 else if (i == 4){
                     bdef.type = BodyDef.BodyType.StaticBody;
-                    bdef.position.set((rect.getX() + rect.getWidth() / 2) / Seeker.PPM, (rect.getY() + rect.getHeight() / 2) / Seeker.PPM);
+                    bdef.position.set((rect.getX() + rect.getWidth() / 2) / Seeker.PPM,
+                            (rect.getY() + rect.getHeight() / 2) / Seeker.PPM);
 
                     body = world.createBody(bdef);
 

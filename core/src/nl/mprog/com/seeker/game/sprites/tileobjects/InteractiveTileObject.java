@@ -47,7 +47,8 @@ public abstract class InteractiveTileObject {
         PolygonShape shape = new PolygonShape();
 
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / Seeker.PPM, (bounds.getY() + bounds.getHeight() / 2) / Seeker.PPM);
+        bdef.position.set((bounds.getX() + bounds.getWidth() / 2) / Seeker.PPM,
+                (bounds.getY() + bounds.getHeight() / 2) / Seeker.PPM);
 
         body = world.createBody(bdef);
 
@@ -66,7 +67,8 @@ public abstract class InteractiveTileObject {
 
     public TiledMapTileLayer.Cell getCell(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(1);
-        return layer.getCell((int)(body.getPosition().x * Seeker.PPM / 16), (int)(body.getPosition().y *Seeker.PPM / 16));
+        return layer.getCell((int)(body.getPosition().x * Seeker.PPM / 16),
+                (int)(body.getPosition().y *Seeker.PPM / 16));
 
     }
 

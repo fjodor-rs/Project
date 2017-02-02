@@ -79,7 +79,8 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
         CircleShape shape = new CircleShape();
         shape.setRadius(8 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.ENEMY_BIT;
-        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.OBJECT_BIT | Seeker.JAAP_BIT;
+        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT
+                | Seeker.ENEMY_BIT | Seeker.OBJECT_BIT | Seeker.JAAP_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);

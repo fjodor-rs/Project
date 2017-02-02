@@ -212,6 +212,7 @@ public class PlayScreen implements Screen {
         }
 
         if(gameWon()){
+
             game.playServices.submitTime(hud.worldTimer * 1000);
             game.setScreen(new GameWonScreen(game));
             dispose();

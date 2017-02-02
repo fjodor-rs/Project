@@ -68,6 +68,8 @@ public class GameOverScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
 
                 game.levelOne = true;
+                game.levelTwo = false;
+                game.levelThree = false;
                 game.setScreen(new PlayScreen(game));
             }
         });
