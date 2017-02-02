@@ -94,4 +94,19 @@
 * Improved Main Menu, Game Won and Game Over's design
 * Looked if it is possible to implement achievements or a second leaderboard before monday
 
+## Day 16
+* Implemented achievements and got the application ready to be published on Google Play Developer Console
+* Started refactoring code for better style
+
+## Day 17
+* Started writing the report and cleaning up my GitHub repository
+* Designed new levels to use in the game
+
+## Day 18
+* Added comments explaining all my methods, and cleaning up my code
+* Continued writing report
+
+## Day 19
+* Added final touches to game and other screens
+* finished up report and Github repository
 
