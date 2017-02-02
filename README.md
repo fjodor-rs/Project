@@ -1,5 +1,7 @@
 # **Jaap's Adventure**
 
+*Copyright (c) 2017 Fjodor van Rijsselberg*
+
 ## Problem
 
 This app will function as an easy way of relieving stress and easing boredom.
