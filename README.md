@@ -8,6 +8,8 @@ trying to get there as fast as possible, or gaining as high a score as possible.
 
 ![](doc/Game Example.png)
 
+
+
 ## Features
 
 Features of this application will be a start screen and the game interface itself.
