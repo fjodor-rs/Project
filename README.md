@@ -6,9 +6,23 @@ This app will function as an easy way of relieving stress or easing boredom.
 The user will play as Jaap controlling him and moving him across the screen towards the goal,
 trying to get there as fast as possible, or gaining as high a score as possible.
 
-![](doc/Game Example.png)
+## Screenshots
 
+### Main Menu
 
+![](doc/Main Menu.png)
+
+### Leaderboard
+
+![](doc/Leaderboard.png)
+
+### Achievements
+
+![](doc/Achievements.png)
+
+### Game Over
+
+![](doc/Game Over.png)
 
 ## Features
 
