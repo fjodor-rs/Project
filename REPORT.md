@@ -53,7 +53,13 @@ in the tileobjects we have all our tiles that have unique interaction with the p
 Items also has an abstract class, in this case called Item, that sets the basics for what an item should have. Items also have an ItemDef that is used to decide the position and type of an item when it is spawned. This spawning is done in PlayScreen and makes sure the correct item is spawned at the correct position. Coin and Hulkifier are the two items in the game right now. Where hulkifier has its own velocity, coin does not. Hulkifier also hulks out Jaap when it is used, but more on that in the Jaap section.
 
 #### Jaap
-The sprite the player controls is called Jaap, which is by far the most complex sprite. 
+The sprite the player controls is called Jaap, which is by far the most complex sprite. Multiple states are used to get the correct animation or texture frames, which are then set in update. Jaap can also change into his Hulk Mode; In this mode Jaap turns green and has increased strength. All these changes are implemented by redefining Jaap as Hulk and changing the textures and animations frames used. the Jaap class also contains what happens to the game when Jaap wins or dies and updates this in the PlayScreen, which implements the correct response.
+
+## Development Challenges
+
+
+## Decision Making
+
 
 
 
