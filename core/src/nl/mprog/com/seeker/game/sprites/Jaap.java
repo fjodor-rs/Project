@@ -145,7 +145,9 @@ public class Jaap extends Sprite{
         CircleShape shape = new CircleShape();
         shape.setRadius(16 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.JAAP_BIT;
-        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
+        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT 
+            | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT 
+            | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
@@ -225,7 +227,8 @@ public class Jaap extends Sprite{
         CircleShape shape = new CircleShape();
         shape.setRadius(16 / Seeker.PPM);
         fdef.filter.categoryBits = Seeker.JAAP_BIT;
-        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
+        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT 
+            | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
