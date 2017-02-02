@@ -21,5 +21,8 @@ It is also the only place where we make a SpriteBatch, because this is very reso
 The batch is used in all screens that require sprite textures in the application.
 We also load in the music used in the game into the AssetManager and finally set the first Screen, the Main Menu.
 
-Main Menu has can show the Leaderboard or Achievement page using the methods in PlayServices, and can set the game to the PlayScreen.
-In the PlayScreen we have the actual game. 
+In the screen package we start with Main Menu. Main Menu has can show the Leaderboard or Achievement page using the methods in PlayServices, and can set the game to the PlayScreen.
+In the PlayScreen all the textures and sprites are loaded in, updated and rendered. it follows the main sprite and handles all input that controls the sprite's movement. It also handles the calls to other screens in situations that the game is won or lost.
+The screens that display when this happens simply let you replay, return to Main Menu or show the Leaderboard.
+
+The sprites package contains three different packages, starting with the enemies sprite package
