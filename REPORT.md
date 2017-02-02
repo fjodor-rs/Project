@@ -63,8 +63,9 @@ The guide I started off with used Super Mario Bros as an example to implement th
 
 One of these additions was a viking axe that Jaap could throw to kill enemies. The implemention was succesful, but too buggy to get working consistenly, which made me decide to scrap the whole concept from the game.
 
-When trying to implement my Leaderboard and Achievements I used the Google Play Developer Console
-Google API 23, SHA key
+When trying to implement my Leaderboard and Achievements I used the Google Play Developer Console. This required to give Google my own unique SHA-1 key, which took a lot of effort to obtain, not just for release, but also for debug version.
+
+The Leaderboard and Achievement required the Google Play Services library, but the newest version of this library was not compatible with Google API's above 23 for the emulator. Finding this problem and a solution took quite some time and effort.
 
 ## Decision Making
 As said in the Development Challenges section, there were alot of things I would have like to add to the game. Instead of implementing this new things I decided to improve the functionality of the things already in the application, to decrease the amount of inconsistencies and make the game as smooth to play as possible. The design I used for my code is made in a way that allows for easy additions to things like blocks, enemies and items. This means that adding new features is easily done and does not effect the rest of the application. The maps and objects used can be easily changed in Tiled, which means that level design can be done extremely fast and requires no extra coding unless you want to add a new unique object with its own interactions. The Leaderboard and Achievements are made possible by the Google Play Developer Console. This was done not only because creating an online leaderboard and achievements list would have taken up a huge amount of time, it also means that it will log you in automaticly if you already have a google account.
