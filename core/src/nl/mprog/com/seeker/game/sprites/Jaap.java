@@ -120,7 +120,7 @@ public class Jaap extends Sprite{
         jaapStand = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 0, 24, 64, 64);
         hulkStand = new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 0, 24, 64, 64);
 
-        jaapDead = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 160, 244, 75, 64);
+        jaapDead = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 210, 175, 64, 64);
 
         jaapWinning = new TextureRegion(screen.getAtlas().findRegion("wreck_it"), 290, 158, 64, 75);
         hulkWinning = new TextureRegion(screen.getAtlas().findRegion("hulk_it"), 290, 158, 64, 75);
@@ -188,7 +188,7 @@ public class Jaap extends Sprite{
         b2body.createFixture(fdef).setUserData(this);
 
         EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-9 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -16 / Seeker.PPM));
+        feet.set(new Vector2(-15 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(15 / Seeker.PPM, -16 / Seeker.PPM));
         fdef.filter.categoryBits = Seeker.JAAP_SMASH_BIT;
         fdef.shape = feet;
         fdef.isSensor = false;
@@ -254,8 +254,9 @@ public class Jaap extends Sprite{
             die();
         }
 
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-        setRegion(getFrame(dt));
+        if(b2body.getPosition().y < -1){
+            die();
+        }
 
         if(timeToDefineHulk){
             defineHulk();
@@ -264,6 +265,9 @@ public class Jaap extends Sprite{
         if(timeToRedefineJaap){
             redefineJaap();
         }
+
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+        setRegion(getFrame(dt));
     }
 
     /**
@@ -332,7 +336,7 @@ public class Jaap extends Sprite{
     public State getState(){
         if(jaapWon)
             return State.WON;
-        else if( jaapIsDead)
+        else if(jaapIsDead)
             return State.DEAD;
         else if(runHulkAnimation)
             return State.HULKING;
@@ -407,7 +411,7 @@ public class Jaap extends Sprite{
     }
 
     /**
-     * Decides what happends if Jaap is hit by an enemy.
+     * Decides what happens if Jaap is hit by an enemy.
      */
 
     public void hit(Enemy enemy){

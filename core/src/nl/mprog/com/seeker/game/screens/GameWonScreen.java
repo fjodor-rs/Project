@@ -40,18 +40,24 @@ public class GameWonScreen implements Screen{
         Gdx.input.setInputProcessor(stage);
 
         Skin mySkin = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
-        final Button button = new TextButton("Play", mySkin);
-        final Button button2 = new TextButton("Leaderboard",mySkin);
+        final Button button = new TextButton("Next Level", mySkin);
+        final Button button2 = new TextButton("Main Menu",mySkin);
 
-        button.setSize(col_width*4,row_height);
-        button.setPosition(col_width*4,Gdx.graphics.getHeight()-row_height*3);
-        button2.setSize(col_width*4,row_height);
-        button2.setPosition(col_width*9,Gdx.graphics.getHeight()-row_height*3);
+        button.setSize(col_width * 4,row_height);
+        button.setPosition(col_width * 4,Gdx.graphics.getHeight()-row_height * 3);
+        button2.setSize(col_width * 4,row_height);
+        button2.setPosition(col_width * 9,Gdx.graphics.getHeight()-row_height * 3);
 
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                if (game.levelOne) {
+                    game.levelOne = false;
+                    game.levelTwo = true;
+                }else if (game.levelTwo) {
+                    game.levelThree = true;
+                    game.levelTwo = false;
+                }
                 game.setScreen(new PlayScreen(game));
             }
         });
@@ -59,7 +65,7 @@ public class GameWonScreen implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
-                game.playServices.showTime();
+                game.setScreen(new MainMenuScreen(game));
             }
         });
         stage.addActor(button);

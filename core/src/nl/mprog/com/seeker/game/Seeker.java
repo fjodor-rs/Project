@@ -37,6 +37,10 @@ public class Seeker extends Game {
 	public static final short END_BIT = 1024;
 	public static final short JAAP_SMASH_BIT = 2048;
 
+	public boolean levelOne;
+	public boolean levelTwo;
+	public boolean levelThree;
+
 	public SpriteBatch batch;
 
 	public static AssetManager manager;

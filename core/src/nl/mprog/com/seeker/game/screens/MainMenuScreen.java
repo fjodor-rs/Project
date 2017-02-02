@@ -29,6 +29,7 @@ public class MainMenuScreen implements Screen {
     int row_height = 150;
     private Sprite sprite;
     private Texture titleTexture;
+    PlayScreen screen;
 
     public MainMenuScreen(final Seeker game) {
 
@@ -58,6 +59,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
+                game.levelOne = true;
                 game.setScreen(new PlayScreen(game));
             }
         });

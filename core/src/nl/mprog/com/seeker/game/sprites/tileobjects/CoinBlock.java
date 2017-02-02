@@ -18,6 +18,7 @@ import nl.mprog.com.seeker.game.sprites.items.Hulkifier;
  *
  * Sets the unique method and bits for all coin blocks.
  */
+
 public class CoinBlock extends InteractiveTileObject {
     private static TiledMapTileSet tileSet;
     private final int BLANK_COIN = 28;

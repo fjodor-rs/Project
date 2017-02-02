@@ -21,6 +21,11 @@ import nl.mprog.com.seeker.game.sprites.items.Item;
 
 public class WorldContactListener implements ContactListener {
 
+    /**
+     * Deals with all fixtures coming into contact.
+     * Checks what bit they are to see what has to happen.
+     */
+
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -58,12 +63,6 @@ public class WorldContactListener implements ContactListener {
                 ((Enemy)fixA.getUserData()).hitByEnemy((Enemy)fixB.getUserData());
                 ((Enemy)fixB.getUserData()).hitByEnemy((Enemy)fixA.getUserData());
                 break;
-            case Seeker.ITEM_BIT | Seeker.OBJECT_BIT:
-                if(fixA.getFilterData().categoryBits == Seeker.ITEM_BIT)
-                    ((Item)fixA.getUserData()).reverseVelocity(true, false);
-                else
-                    ((Item)fixB.getUserData()).reverseVelocity(true, false);
-                break;
             case Seeker.ITEM_BIT | Seeker.JAAP_BIT:
                 if(fixA.getFilterData().categoryBits == Seeker.ITEM_BIT)
                     ((Item)fixA.getUserData()).use((Jaap) fixB.getUserData());
@@ -88,24 +87,28 @@ public class WorldContactListener implements ContactListener {
 
     }
 
+    /**
+     * Deals with all fixtures ending their contact.
+     * Checks what bit they are to see what has to happen.
+     */
+
     @Override
     public void endContact(Contact contact) {
 
-
-        Fixture fixA = contact.getFixtureA();
-        Fixture fixB = contact.getFixtureB();
-
-        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
-
-        switch(cDef) {
-            case Seeker.BRICK_BIT | Seeker.JAAP_SMASH_BIT:
-                if (fixA.getFilterData().categoryBits == Seeker.JAAP_SMASH_BIT) {
-                    ((Jaap) fixA.getUserData()).setTouching((null));
-                } else {
-                    ((Jaap) fixB.getUserData()).setTouching((null));
-                }
-                break;
-        }
+//        Fixture fixA = contact.getFixtureA();
+//        Fixture fixB = contact.getFixtureB();
+//
+//        int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
+//
+//        switch(cDef) {
+//            case Seeker.BRICK_BIT | Seeker.JAAP_SMASH_BIT:
+//                if (fixA.getFilterData().categoryBits == Seeker.JAAP_SMASH_BIT) {
+//                    ((Jaap) fixA.getUserData()).setTouching((null));
+//                } else {
+//                    ((Jaap) fixB.getUserData()).setTouching((null));
+//                }
+//                break;
+//        }
     }
 
     @Override

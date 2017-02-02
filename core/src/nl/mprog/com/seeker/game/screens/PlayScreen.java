@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -55,7 +54,6 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private World world;
-    private Box2DDebugRenderer b2dr;
     private B2WorldCreator creator;
 
     private Jaap jaap;
@@ -64,6 +62,7 @@ public class PlayScreen implements Screen {
     private LinkedBlockingQueue<ItemDef> itemsToSpawn;
 
     private Controller controller;
+    private boolean achievementUnlock;
 
     public PlayScreen(Seeker game) {
         textureAtlas = new TextureAtlas("hulk_it.pack");
@@ -74,12 +73,18 @@ public class PlayScreen implements Screen {
         hud = new HUD(game.batch);
 
         mapLoader = new TmxMapLoader();
-        tiledMap = mapLoader.load("demo_level.tmx");
+        if (game.levelOne)
+            tiledMap = mapLoader.load("second_level.tmx");
+        if (game.levelTwo && !game.levelOne)
+            tiledMap = mapLoader.load("demo_level.tmx");
+        if (game.levelThree && (!game.levelOne || game.levelTwo))
+            tiledMap = mapLoader.load("third_level.tmx");
+
+
         renderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / Seeker.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
         world = new World(new Vector2(0, -10), true);
-        b2dr = new Box2DDebugRenderer();
 
         creator = new B2WorldCreator(this);
 
@@ -94,7 +99,6 @@ public class PlayScreen implements Screen {
 
         items = new Array<Item>();
         itemsToSpawn = new LinkedBlockingQueue<ItemDef>();
-
     }
 
     /**
@@ -142,10 +146,7 @@ public class PlayScreen implements Screen {
                 jaap.b2body.applyLinearImpulse(new Vector2(0.1f, 0), jaap.b2body.getWorldCenter(), true);
             if (controller.isLeftPressed() && jaap.b2body.getLinearVelocity().x >= -2)
                 jaap.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), jaap.b2body.getWorldCenter(), true);
-            if(controller.isDownPressed())
-                jaap.smashMode = true;
-            else
-                jaap.smashMode = false;
+            jaap.smashMode = controller.isDownPressed();
         }
     }
 
@@ -191,8 +192,6 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        b2dr.render(world, gameCam.combined);
-
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
         jaap.draw(game.batch);
@@ -217,8 +216,9 @@ public class PlayScreen implements Screen {
             game.setScreen(new GameWonScreen(game));
             dispose();
         }
-        if(jaap.isHulk()){
+        if(jaap.isHulk() && !achievementUnlock){
             game.playServices.unlockAchievement();
+            achievementUnlock = true;
         }
     }
 
@@ -226,7 +226,6 @@ public class PlayScreen implements Screen {
         if(jaap.currentState == Jaap.State.DEAD && jaap.getStateTimer() > 3){
             return true;
         }
-
         return false;
     }
 
@@ -234,7 +233,6 @@ public class PlayScreen implements Screen {
         if(jaap.currentState == Jaap.State.WON && jaap.getStateTimer() > 3){
             return true;
         }
-
         return false;
     }
 
@@ -252,7 +250,6 @@ public class PlayScreen implements Screen {
     public World getWorld(){
         return world;
     }
-
 
     @Override
     public void pause() {
@@ -274,7 +271,6 @@ public class PlayScreen implements Screen {
         tiledMap.dispose();
         renderer.dispose();
         world.dispose();
-        b2dr.dispose();
         hud.dispose();
 
     }

@@ -38,6 +38,10 @@ public class Controller {
     public Table table;
     public Table table2;
 
+    /**
+     * Draws the controller on the screen, and checks for input on a specific button.
+     */
+
     public Controller(SpriteBatch spriteBatch) {
         camera = new OrthographicCamera();
         viewport = new FitViewport(Seeker.V_WIDTH, Seeker.V_HEIGHT, camera);
@@ -45,7 +49,7 @@ public class Controller {
         Gdx.input.setInputProcessor(stage);
 
         buttonUp = new Image(new Texture("buttonup.png"));
-        buttonUp.setSize(25, 25);
+        buttonUp.setSize(35, 35);
         buttonUp.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -59,7 +63,7 @@ public class Controller {
             }
         });
         buttonDown = new Image(new Texture("buttondown.png"));
-        buttonDown.setSize(25, 25);
+        buttonDown.setSize(35, 35);
         buttonDown.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -73,7 +77,7 @@ public class Controller {
             }
         });
         buttonLeft = new Image(new Texture("buttonleft.png"));
-        buttonLeft.setSize(25, 25);
+        buttonLeft.setSize(35, 35);
         buttonLeft.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -87,7 +91,7 @@ public class Controller {
             }
         });
         buttonRight = new Image(new Texture("buttonright.png"));
-        buttonRight.setSize(25, 25);
+        buttonRight.setSize(35, 35);
         buttonRight.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

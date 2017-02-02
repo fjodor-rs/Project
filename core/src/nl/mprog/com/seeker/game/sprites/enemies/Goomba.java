@@ -86,8 +86,8 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
 
         PolygonShape head = new PolygonShape();
         Vector2[] vertix = new Vector2[4];
-        vertix[0] = new Vector2(-6, 10).scl(1 / Seeker.PPM);
-        vertix[1] = new Vector2(6, 10).scl(1 / Seeker.PPM);
+        vertix[0] = new Vector2(-5, 11).scl(1 / Seeker.PPM);
+        vertix[1] = new Vector2(5, 11).scl(1 / Seeker.PPM);
         vertix[2] = new Vector2(-4, 3).scl(1 / Seeker.PPM);
         vertix[3] = new Vector2(4, 3).scl(1 / Seeker.PPM);
         head.set(vertix);
