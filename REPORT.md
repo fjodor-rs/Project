@@ -36,8 +36,22 @@ the Controller class creates button images and inputlisteners to check if a butt
 The WorldContactListener is called when two objects come in to contact. It uses the bites assigned to the objects to decide what happens when they come into contact. It is also used to implement what happens when to objects end their contact.
 
 ### Sprites
+All sprites have a body created in the world and a fixture attached to that body which is assigned either a texture or an animation.
+A sprite can only have a single texture or a whole scala of animations and textures depending on its fucntion and uses. When the body is created it is also assigned a position, but this can be overwritten in another method if neccessary. The fixture has a specific and size and assigns the sprites bit and which bits the sprite can collide with. One sprite can have multiple fixtures with different purposes. For example to detect if Jaap has hit something with his head there is a specific fixture at his heads location. This fixture has its own bit and will therefore execute a method that only happens when Jaap hits certain things with his head.
+
+##### Enemies
 The sprites package contains three different packages, starting with the enemies sprite package.
 All enemies use the abstract class Enemy as a base for their structure, to make it easier to add new enemies.
 The Goomba and Turtle class both make a specific enemy that can be added as an object in Tiled and will then be created at that position by the B2WorldCreator class. They use the methods of their abstract class, but specific to their function and design.
+
+##### Tile Objects
+in the tileobjects we have all our tiles that have unique interaction with the player, instead of being just a static body with which the player can collide. We start off again with a abstract class; InteractiveTileObject is the base for all tiles that have different interactions. Brick, CoinBlock and EndBlock all extend InteractiveTileObject and have their own bit and onHeadHit method.
+
+##### Items
+Items also has an abstract class, in this case called Item, that sets the basics for what an item should have. Items also have an ItemDef that is used to decide the position and type of an item when it is spawned. This spawning is done in PlayScreen and makes sure the correct item is spawned at the correct position. Coin and Hulkifier are the two items in the game right now. Where hulkifier has its own velocity, coin does not. Hulkifier also hulks out Jaap when it is used, but more on that in the Jaap section.
+
+##### Jaap
+The sprite the player controls is called Jaap, which is by far the most complex sprite. 
+
 
 
