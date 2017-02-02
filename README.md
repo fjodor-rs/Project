@@ -37,6 +37,9 @@ The levels, using sprites and tiles, were created using Tiled.
 The app also uses Tiled to make specific tiles into object for collision purposes.
 Authentication and the Leaderboard are done using Google Play Developer Console.
 
+For the mario-style tilesheet I used an image downloaded from spriters-resource.com.
+I could not find if there was a license to use these tiles.
+
 ## Guides
 
 I learned the basic concepts and code documentation by using Marc Aurelie's guide on YouTube on how to create a Super Mario Bros game using LibGDX:
