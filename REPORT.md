@@ -6,6 +6,8 @@ The levels can be solved as fast as possible, with the highest score, or just fo
 You can check out how well you did compared to your friends or the whole world at the leadeboard.
 There is also achievements you can get through out the game, which can also be viewed from the Main Menu.
 
+![](doc/Game Example.png)
+
 ## Technical Design
 
 ### Main Parts
