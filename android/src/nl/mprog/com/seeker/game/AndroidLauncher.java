@@ -10,6 +10,13 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 
+/**
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * This class initializes the game class Seeker. It also defines the methods used in the PlayService interface
+ */
+
 public class AndroidLauncher extends AndroidApplication implements PlayServices{
 	private GameHelper gameHelper;
 	private final static int REQUEST_CODE = 1;
@@ -113,7 +120,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
 	@Override
 	public void submitTime(int highScore)
 	{
-		if (isSignedIn() == true)
+		if (isSignedIn())
 		{
 			Games.Leaderboards.submitScore(gameHelper.getApiClient(),
 					getString(R.string.leaderboard_best_time), highScore);
@@ -123,7 +130,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
 	@Override
 	public void showAchievement()
 	{
-		if (isSignedIn() == true)
+		if (isSignedIn())
 		{
 			startActivityForResult(Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), REQUEST_CODE);
 		}
@@ -136,7 +143,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices{
 	@Override
 	public void showTime()
 	{
-		if (isSignedIn() == true)
+		if (isSignedIn())
 		{
 			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
 					getString(R.string.leaderboard_best_time)), REQUEST_CODE);

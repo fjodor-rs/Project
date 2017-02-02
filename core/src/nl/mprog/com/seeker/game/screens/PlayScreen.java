@@ -97,9 +97,17 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Adds an item to itemsToSpawn to spawn them in handleSpawningItems
+     */
+
     public void spawnItem(ItemDef itemDef){
         itemsToSpawn.add(itemDef);
     }
+
+    /**
+     * Checks what item needs to be spawned and spawns them at the position in itemDef.
+     */
 
     public void handleSpawningItems(){
         if(!itemsToSpawn.isEmpty()){
@@ -122,10 +130,14 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     *  Takes in the controller input and sets off the necessary response.
+     */
+
     public void handleInput(float dt){
         if(jaap.currentState != Jaap.State.DEAD) {
             if (controller.isUpPressed() && jaap.b2body.getLinearVelocity().y == 0)
-                jaap.b2body.applyLinearImpulse(new Vector2(0, 4f), jaap.b2body.getWorldCenter(), true); //true - will this impulse wake object.
+                jaap.b2body.applyLinearImpulse(new Vector2(0, 4f), jaap.b2body.getWorldCenter(), true);
             if (controller.isRightPressed() && jaap.b2body.getLinearVelocity().x <= 2)
                 jaap.b2body.applyLinearImpulse(new Vector2(0.1f, 0), jaap.b2body.getWorldCenter(), true);
             if (controller.isLeftPressed() && jaap.b2body.getLinearVelocity().x >= -2)
@@ -136,6 +148,11 @@ public class PlayScreen implements Screen {
                 jaap.smashMode = false;
         }
     }
+
+    /**
+     * Updates everything that needs to be rendered and updates the camera's position.
+     * Also uses worldContactListener to check for collision during a world step.
+     */
 
     public void update(float dt){
 
@@ -160,6 +177,10 @@ public class PlayScreen implements Screen {
         gameCam.update();
         renderer.setView(gameCam);
     }
+
+    /**
+     * Draws all textures, sprites, controller buttons and backgrounds.
+     */
 
     @Override
     public void render(float delta) {
@@ -222,7 +243,6 @@ public class PlayScreen implements Screen {
 
         gamePort.update(width, height);
         controller.resize(width, height);
-
     }
 
     public TiledMap getMap(){

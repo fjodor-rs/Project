@@ -19,7 +19,7 @@ import nl.mprog.com.seeker.game.sprites.Jaap;
  * Fjodor van Rijsselberg
  * Student number: 11409231
  *
- * Class that sets the textures and animations for the goomba sprite, updates them
+ * Class that sets the body, textures and animations for the goomba sprite, updates them
  * and implements them for all the goombas.
  */
 
@@ -43,6 +43,11 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
         destroyed = false;
     }
 
+    /**
+     * Checks if the body needs to be destroyed and destroys it using its dieing texture.
+     * If it is not destroyed it sets it positions, applies velocity and updates the texture frames.
+     */
+
     public void update(float dt){
         stateTime += dt;
         if(setToDestroy && !destroyed){
@@ -57,6 +62,11 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
             setRegion((TextureRegion) walkAnimation.getKeyFrame(stateTime, true));
         }
     }
+
+    /**
+     * Defines the Goomba's body and attaches two fixtures. Making a fixture for its body and for above its head.
+     * Also sets the Goomba's unique bit and decides what the Goomba can come into contact with.
+     */
 
     @Override
     protected void defineEnemy() {
@@ -88,11 +98,19 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
         b2body.createFixture(fdef).setUserData(this);
     }
 
+    /**
+     * Sets to destroy when hit on the head by Jaap.
+     */
+
     @Override
     public void hitOnHead(Jaap jaap) {
         setToDestroy = true;
         Seeker.manager.get("audio/sounds/stomp.wav", Sound.class).play();
     }
+
+    /**
+     * Sets what it needs to do when hit by another enemy.
+     */
 
     @Override
     public void hitByEnemy(Enemy enemy) {
@@ -101,6 +119,10 @@ public class Goomba extends nl.mprog.com.seeker.game.sprites.enemies.Enemy {
         else
             reverseVelocity(true, false);
     }
+
+    /**
+     * Draws the sprite.
+     */
 
     public void draw(Batch batch){
         if(!destroyed || stateTime < 1)

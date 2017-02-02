@@ -11,7 +11,10 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
- * Created by Fjodor on 2017/01/27.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Creates a usable coin that spawns from coin blocks that can be collected by Jaap to increase his score.
  */
 
 public class Coin extends Item {
@@ -20,6 +23,10 @@ public class Coin extends Item {
         super(screen, x, y);
         setRegion(screen.getAtlas().findRegion("coin"), 0, 0, 256, 256);
     }
+
+    /**
+     * Defines the coin, giving it a body and attaching a fixture, setting a bit and telling it what it can collide with.
+     */
 
     @Override
     public void defineItem() {
@@ -38,12 +45,19 @@ public class Coin extends Item {
         body.createFixture(fdef).setUserData(this);
     }
 
+    /**
+     * Destroys the coin and adds score, using up the coin.
+     */
+
     @Override
     public void use(Jaap jaap) {
         destroy();
         Seeker.manager.get("audio/sounds/coin.wav", Sound.class).play();
         HUD.addScore(100);
     }
+    /**
+     * Updates the position of the coin.
+     */
 
     @Override
     public void update(float dt) {

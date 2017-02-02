@@ -27,7 +27,7 @@ public class HUD implements Disposable {
     private Viewport viewPort;
 
     public Integer worldTimer;
-    private boolean timeUp; // true when the world timer reaches 0
+    private boolean timeUp;
     private float timeCount;
     private static Integer score;
 
@@ -70,6 +70,9 @@ public class HUD implements Disposable {
 
     }
 
+    /**
+     * Updates the game timer.
+     */
 
     public void update(float dt) {
         timeCount += dt;
@@ -83,6 +86,10 @@ public class HUD implements Disposable {
             timeCount = 0;
         }
     }
+
+    /**
+     * Keeps track of the in game score.
+     */
 
     public static void addScore(int value){
         score += value;

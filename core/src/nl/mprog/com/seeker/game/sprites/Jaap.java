@@ -3,7 +3,6 @@ package nl.mprog.com.seeker.game.sprites;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 
-import nl.mprog.com.seeker.game.PlayServices;
 import nl.mprog.com.seeker.game.scenes.HUD;
 import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.Seeker;
@@ -38,7 +36,7 @@ import nl.mprog.com.seeker.game.sprites.tileobjects.InteractiveTileObject;
 public class Jaap extends Sprite{
 
 
-    public enum State { FALLING, JUMPING, STANDING, RUNNING, GROWING, DEAD, WON, SMASHING};
+    public enum State { FALLING, JUMPING, STANDING, RUNNING, HULKING, DEAD, WON, SMASHING};
     public State currentState;
     public State previousState;
     public boolean smashMode;
@@ -46,27 +44,27 @@ public class Jaap extends Sprite{
     private PlayScreen screen;
 
     private TextureRegion jaapStand;
-    private Animation jaapRun;
     private TextureRegion jaapJump;
     private TextureRegion jaapDead;
     private TextureRegion hulkStand;
     private TextureRegion hulkJump;
     private TextureRegion jaapWinning;
     private TextureRegion hulkWinning;
+
     private Animation hulkRun;
     private Animation hulkAnimation;
     private Animation jaapSmash;
     private Animation hulkSmash;
+    private Animation jaapRun;
 
     public InteractiveTileObject touching;
     public World world;
     public Body b2body;
-
     private float stateTimer;
 
     private boolean runningRight;
     private boolean jaapIsHulk;
-    private boolean runGrowAnimation;
+    private boolean runHulkAnimation;
     private boolean timeToDefineHulk;
     private boolean timeToRedefineJaap;
     private boolean jaapIsDead;
@@ -132,6 +130,46 @@ public class Jaap extends Sprite{
         setRegion(jaapStand);
     }
 
+    /**
+     * Defines Jaap's body and attaches a fixtures to it for the body, head and feet.
+     * The fixtures are assigned a specific bit to use for collision.
+     */
+
+    public void defineJaap(){
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(32 / Seeker.PPM, 32 / Seeker.PPM);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        b2body = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        CircleShape shape = new CircleShape();
+        shape.setRadius(16 / Seeker.PPM);
+        fdef.filter.categoryBits = Seeker.JAAP_BIT;
+        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
+
+        fdef.shape = shape;
+        b2body.createFixture(fdef).setUserData(this);
+
+        EdgeShape feet = new EdgeShape();
+        feet.set(new Vector2(-9 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -16 / Seeker.PPM));
+        fdef.filter.categoryBits = Seeker.JAAP_SMASH_BIT;
+        fdef.shape = feet;
+        fdef.isSensor = false;
+        b2body.createFixture(fdef).setUserData(this);
+
+        EdgeShape head = new EdgeShape();
+        head.set(new Vector2(-2 / Seeker.PPM, 16 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 16 / Seeker.PPM));
+        fdef.filter.categoryBits = Seeker.JAAP_HEAD_BIT;
+        fdef.shape = head;
+        fdef.isSensor = true;
+        b2body.createFixture(fdef).setUserData(this);
+    }
+
+    /**
+     * Defines Hulk's body and attaches a fixtures to it for the body, head and feet.
+     * The fixtures are assigned a specific bit to use for collision.
+     */
+
     public void defineHulk(){
         Vector2 currentPosition = b2body.getPosition();
         world.destroyBody(b2body);
@@ -166,9 +204,16 @@ public class Jaap extends Sprite{
         timeToDefineHulk = false;
     }
 
-    public void defineJaap(){
+    /**
+     * Redefines Jaap to the correct position if he is hit in Hulk mode.
+     */
+
+    public void redefineJaap() {
+        Vector2 position = b2body.getPosition();
+        world.destroyBody(b2body);
+
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32 / Seeker.PPM, 32 / Seeker.PPM);
+        bdef.position.set(position);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -195,7 +240,13 @@ public class Jaap extends Sprite{
         fdef.isSensor = true;
         b2body.createFixture(fdef).setUserData(this);
 
+        timeToRedefineJaap = false;
     }
+
+    /**
+     * Sets Jaap's position, checks if Jaap needs to go Hulk or Hulk needs to return to Jaap.
+     * Checks if Jaap needs to die.
+     */
 
     public void update(float dt){
 
@@ -204,15 +255,22 @@ public class Jaap extends Sprite{
         }
 
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-
         setRegion(getFrame(dt));
+
         if(timeToDefineHulk){
             defineHulk();
         }
+
         if(timeToRedefineJaap){
             redefineJaap();
         }
     }
+
+    /**
+     * Decides what textures or animations frames are needed depending on the state.
+     * Flips the animation or texture depending on what way Jaap is moving.
+     * Makes sure Jaap and Hulk use their own animations.
+     */
 
     public TextureRegion getFrame(Float dt){
         currentState = getState();
@@ -225,10 +283,10 @@ public class Jaap extends Sprite{
             case DEAD:
                 region = jaapDead;
                 break;
-            case GROWING:
+            case HULKING:
                 region = (TextureRegion) hulkAnimation.getKeyFrame(stateTimer);
                 if(hulkAnimation.isAnimationFinished(stateTimer))
-                    runGrowAnimation = false;
+                    runHulkAnimation = false;
                 break;
             case JUMPING:
                 region = jaapIsHulk ? hulkJump : jaapJump;
@@ -266,13 +324,18 @@ public class Jaap extends Sprite{
         return region;
     }
 
+    /**
+     * Gets the state Jaap is in depending on specific factors.
+     * If Jaap is in two states at the same time, he will choose the state higher in the hierarchy.
+     */
+
     public State getState(){
         if(jaapWon)
             return State.WON;
         else if( jaapIsDead)
             return State.DEAD;
-        else if(runGrowAnimation)
-            return State.GROWING;
+        else if(runHulkAnimation)
+            return State.HULKING;
         else if(b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING))
             return State.JUMPING;
         else if(b2body.getLinearVelocity().y < 0)
@@ -285,13 +348,22 @@ public class Jaap extends Sprite{
             return State.STANDING;
         }
 
-    public void grow() {
-        runGrowAnimation = true;
+    /**
+     * Turns Jaap into his Hulk mode.
+     */
+
+    public void hulkOut() {
+        runHulkAnimation = true;
         jaapIsHulk = true;
         timeToDefineHulk = true;
         Seeker.manager.get("audio/sounds/powerup.wav", Sound.class).play();
-
     }
+
+    /**
+     * Creates Jaap's death, by playing the death sound effect and stopping the music.
+     * It also makes Jaap fall through the world.
+     * Finally it sets JaapIsDead to true to set the screen go to the GameOverScreen in PlayScreen.
+     */
 
     public void die() {
 
@@ -306,7 +378,6 @@ public class Jaap extends Sprite{
             for (Fixture fixture : b2body.getFixtureList()) {
                 fixture.setFilterData(filter);
             }
-
             b2body.applyLinearImpulse(new Vector2(0, 4f), b2body.getWorldCenter(), true);
         }
     }
@@ -328,13 +399,16 @@ public class Jaap extends Sprite{
     }
 
     public void onSmashBrick(InteractiveTileObject brick) {
-
         brick.setCategoryFilter(Seeker.DESTROYED_BIT);
         brick.getCell().setTile(null);
         HUD.addScore(200);
         Seeker.manager.get("audio/sounds/breakblock.wav", Sound.class).play();
         setTouching(null);
     }
+
+    /**
+     * Decides what happends if Jaap is hit by an enemy.
+     */
 
     public void hit(Enemy enemy){
         if(enemy instanceof Turtle && ((Turtle) enemy).getCurrentState() == Turtle.State.STANDING_SHELL)
@@ -350,48 +424,16 @@ public class Jaap extends Sprite{
         }
     }
 
+    /**
+     * Handles Jaap winning the game, changing his poisture and setting the screen to GameWonScreen in the PlayScreen.
+     */
+
     public void win(){
         if(!jaapWon) {
             jaapWon = true;
             Seeker.manager.get("audio/sounds/win.wav", Sound.class).play();
             Seeker.manager.get("audio/music/factory_time_loop.ogg", Music.class).stop();
-
             b2body.applyLinearImpulse(new Vector2(0, 3f), b2body.getWorldCenter(), true);
         }
-    }
-
-    public void redefineJaap() {
-        Vector2 position = b2body.getPosition();
-        world.destroyBody(b2body);
-
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(position);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
-
-        FixtureDef fdef = new FixtureDef();
-        CircleShape shape = new CircleShape();
-        shape.setRadius(16 / Seeker.PPM);
-        fdef.filter.categoryBits = Seeker.JAAP_BIT;
-        fdef.filter.maskBits = Seeker.GROUND_BIT | Seeker.COIN_BIT | Seeker.BRICK_BIT | Seeker.ENEMY_BIT | Seeker.ENEMY_HEAD_BIT | Seeker.OBJECT_BIT | Seeker.ITEM_BIT | Seeker.END_BIT;
-
-        fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData(this);
-
-        EdgeShape feet = new EdgeShape();
-        feet.set(new Vector2(-9 / Seeker.PPM, -16 / Seeker.PPM), new Vector2(9 / Seeker.PPM, -16 / Seeker.PPM));
-        fdef.filter.categoryBits = Seeker.JAAP_SMASH_BIT;
-        fdef.shape = feet;
-        fdef.isSensor = false;
-        b2body.createFixture(fdef).setUserData(this);
-
-        EdgeShape head = new EdgeShape();
-        head.set(new Vector2(-2 / Seeker.PPM, 16 / Seeker.PPM), new Vector2(2 / Seeker.PPM, 16 / Seeker.PPM));
-        fdef.filter.categoryBits = Seeker.JAAP_HEAD_BIT;
-        fdef.shape = head;
-        fdef.isSensor = true;
-        b2body.createFixture(fdef).setUserData(this);
-
-        timeToRedefineJaap = false;
     }
 }

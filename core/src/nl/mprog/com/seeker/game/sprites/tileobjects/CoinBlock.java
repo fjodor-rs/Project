@@ -13,9 +13,11 @@ import nl.mprog.com.seeker.game.sprites.items.ItemDef;
 import nl.mprog.com.seeker.game.sprites.items.Hulkifier;
 
 /**
- * Created by Fjodor on 2017/01/10.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Sets the unique method and bits for all coin blocks.
  */
-
 public class CoinBlock extends InteractiveTileObject {
     private static TiledMapTileSet tileSet;
     private final int BLANK_COIN = 28;
@@ -25,6 +27,11 @@ public class CoinBlock extends InteractiveTileObject {
         fixture.setUserData(this);
         setCategoryFilter(Seeker.COIN_BIT);
     }
+
+    /**
+     * Checks if a coin block contains a hulkifier and spawns it if it does.
+     * If it doesn't it spawns a coin. In both cases it sets the tile to an empty coin block afterwards.
+     */
 
     @Override
     public void onHeadHit(Jaap jaap) {

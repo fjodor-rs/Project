@@ -14,7 +14,7 @@ import nl.mprog.com.seeker.game.sprites.Jaap;
  * Fjodor van Rijsselberg
  * Student number: 11409231
  *
- *
+ * an item that lets Jaap go into his Hulk Mode and only spawns out of specific coin blocks.
  */
 
 public class Hulkifier extends Item {
@@ -24,6 +24,10 @@ public class Hulkifier extends Item {
         setRegion(screen.getAtlas().findRegion("computer"), 0, 0, 256, 256);
         velocity = new Vector2(0.7f, 0);
     }
+
+    /**
+     * Defines the hulkifier, giving it a body and attaching a fixture, setting a bit and telling it what it can collide with.
+     */
 
     @Override
     public void defineItem() {
@@ -44,11 +48,20 @@ public class Hulkifier extends Item {
         setBounds(getX(), getY(), 24 / Seeker.PPM, 24 / Seeker.PPM);
     }
 
+
+    /**
+     * Is called when Jaap comes into contact with the Hulkifier, makes Jaap hulk out.
+     */
+
     @Override
     public void use(Jaap jaap) {
         destroy();
-        jaap.grow();
+        jaap.hulkOut();
     }
+
+    /**
+     * Updates the position and sets the velocity of the hulkifier.
+     */
 
     @Override
     public void update(float dt) {

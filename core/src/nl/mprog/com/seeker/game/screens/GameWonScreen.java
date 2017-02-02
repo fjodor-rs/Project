@@ -48,7 +48,6 @@ public class GameWonScreen implements Screen{
         button2.setSize(col_width*4,row_height);
         button2.setPosition(col_width*9,Gdx.graphics.getHeight()-row_height*3);
 
-
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -7,7 +7,10 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
- * Created by Fjodor on 2017/01/19.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * If Jaap collides with this block, he wins the game, its unique bit is set here.
  */
 
 public class EndBlock extends InteractiveTileObject {

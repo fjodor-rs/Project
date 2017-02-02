@@ -9,7 +9,10 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
- * Created by Fjodor on 2017/01/10.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Sets a brick's unique bit and onHeadHit method.
  */
 
 public class Brick extends InteractiveTileObject {
@@ -19,6 +22,10 @@ public class Brick extends InteractiveTileObject {
         fixture.setUserData(this);
         setCategoryFilter(Seeker.BRICK_BIT);
     }
+
+    /**
+     * Breaks the brick, changes the score and makes the cell empty.
+     */
 
     @Override
     public void onHeadHit(Jaap jaap) {

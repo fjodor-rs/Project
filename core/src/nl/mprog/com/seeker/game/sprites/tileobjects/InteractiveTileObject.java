@@ -19,7 +19,10 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
- * Created by Fjodor on 2017/01/10.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Abstract class used as a base for all interactive tile objects.
  */
 
 public abstract class InteractiveTileObject {

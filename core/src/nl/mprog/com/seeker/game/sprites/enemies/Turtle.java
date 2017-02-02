@@ -16,7 +16,11 @@ import nl.mprog.com.seeker.game.screens.PlayScreen;
 import nl.mprog.com.seeker.game.sprites.Jaap;
 
 /**
- * Created by Fjodor on 2017/01/16.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * Class that sets the body, textures and animations for the turtle sprite, updates them
+ * and implements them for all the turtles. Turtles use states, defaulting to WALKING as their current state.
  */
 
 public class Turtle extends Enemy {
@@ -45,6 +49,11 @@ public class Turtle extends Enemy {
         setBounds(getX(), getY(), 16 / Seeker.PPM, 24 / Seeker.PPM);
         deadRotationDegrees = 0;
     }
+
+    /**
+     * Defines the Turtle's body and attaches two fixtures. Making a fixture for its body and for above its head.
+     * Also sets the Goomba's unique bit and decides what the Goomba can come into contact with.
+     */
 
     @Override
     protected void defineEnemy() {
@@ -76,6 +85,10 @@ public class Turtle extends Enemy {
         b2body.createFixture(fdef).setUserData(this);
     }
 
+    /**
+     * gets the correct texture frames for the turtle's different states.
+     */
+
     public TextureRegion getFrame(float dt) {
         TextureRegion region;
 
@@ -100,15 +113,21 @@ public class Turtle extends Enemy {
         return region;
     }
 
+    /**
+     * Updates the frame region and positions and sets the velocity if walking.
+     * Sets the state from standing shell to walking after 5 seconds.
+     * Also checks if the turtle's state is DEAD to remove it from the game when it dies.
+    */
+
     @Override
     public void update(float dt) {
         setRegion(getFrame(dt));
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - 8 / Seeker.PPM);
+
         if (currentState == State.STANDING_SHELL && stateTime > 5) {
             currentState = State.WALKING;
             velocity.x = 1;
         }
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - 8 / Seeker.PPM);
-
 
         if(currentState == State.DEAD){
             deadRotationDegrees += 3;
@@ -122,6 +141,10 @@ public class Turtle extends Enemy {
             b2body.setLinearVelocity(velocity);
     }
 
+    /**
+     * Lets Jaap kick the turtle, depending on his position, to either side.
+     */
+
     @Override
     public void hitOnHead(Jaap jaap) {
         if (currentState != State.STANDING_SHELL) {
@@ -131,6 +154,10 @@ public class Turtle extends Enemy {
             kick(jaap.getX() > this.getX() ? KICK_RIGHT : KICK_LEFT);
         }
     }
+
+    /**
+     * Deals with what happens to the turtle if he is hit by an enemy.
+     */
 
     @Override
     public void hitByEnemy(Enemy enemy) {
@@ -155,6 +182,10 @@ public class Turtle extends Enemy {
     public State getCurrentState(){
         return currentState;
     }
+
+    /**
+     * Makes the turtle spin through the level and die when called.
+     */
 
     public void killed(){
         currentState = State.DEAD;

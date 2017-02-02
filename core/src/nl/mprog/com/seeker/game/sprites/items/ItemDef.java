@@ -1,10 +1,12 @@
 package nl.mprog.com.seeker.game.sprites.items;
 
-import com.badlogic.gdx.assets.loaders.resolvers.ClasspathFileHandleResolver;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * This class defines the items type and position.
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * This class defines am item's type and position.
  */
 
 public class ItemDef {

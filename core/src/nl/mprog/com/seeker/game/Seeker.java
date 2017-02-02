@@ -7,7 +7,16 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import nl.mprog.com.seeker.game.screens.MainMenuScreen;
-import nl.mprog.com.seeker.game.screens.PlayScreen;
+
+/**
+ * Fjodor van Rijsselberg
+ * Student number: 11409231
+ *
+ * The main game class holds the static bits used for collision detection.
+ * It creates the SpriteBatch that is used throughout all the other screens.
+ * It also loads in the music used in the game and sets the screen to the Main Menu.
+ * Finally it holds the static values for the width and height used for the game and the scale used to work with Tiled.
+ */
 
 public class Seeker extends Game {
     public static final int V_WIDTH = 400;
