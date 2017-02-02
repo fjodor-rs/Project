@@ -1,8 +1,8 @@
-# **Project**
+# **Jaap's Adventure**
 
 ## Problem
 
-This app will function as an easy way of relieving stress or easing boredom.
+This app will function as an easy way of relieving stress and easing boredom.
 The user will play as Jaap controlling him and moving him across the screen towards the goal,
 trying to get there as fast as possible, or gaining as high a score as possible.
 
@@ -68,3 +68,4 @@ Expansion of the app would focus on more levels, different difficulties, a high 
 If the first level is working and playable, the next implementations would be the authentication and scoreboard.
 After that the focus would be on creating more levels to play and creating multiple ways to play a level.
 
+*Made by Fjodor van Rijsselberg*
