@@ -1,7 +1,5 @@
 # **Jaap's Adventure**
 
-*Copyright (c) 2017 Fjodor van Rijsselberg*
-
 ## Problem
 
 This app will function as an easy way of relieving stress and easing boredom.
@@ -28,9 +26,9 @@ trying to get there as fast as possible, or gaining as high a score as possible.
 
 ## Features
 
-Features of this application will be a start screen and the game interface itself.
+Features of this application are a Main Menu screen, the game interface itself, a Leaderboard, achievements section and Game Over or Game Won screen.
 The game interface will contain obstacles and a sprite, the user can move the sprite and the screen will follow throughout the level.
-Possible additions to the application will be discussed at the end of the document.
+Possible additions I wanted to implement in the application will be discussed at the end of the document.
 
 ## Sources
 
@@ -39,23 +37,27 @@ The levels, using sprites and tiles, were created using Tiled.
 The app also uses Tiled to make specific tiles into object for collision purposes.
 Authentication and the Leaderboard are done using Google Play Developer Console.
 
+## Guides
+
+I learned the basic concepts and code documentation by using Marc Aurelie's guide on YouTube on how to create a Super Mario Bros game using LibGDX:
+https://www.youtube.com/watch?v=a8MPxzkwBwo
+
 ## Separation of Concerns
 
 All the game related code is in the core part of the app, created using libGDX.
 Only the AndroidLauncher and the game's assets are in the android part of the app.
 
-In core the app will be using a package called scenes for all the classes that contain the labels placed over the game's interface.
-Core will also contain a package called screens which will contain the different playscreen classes for different levels.
+In core the app we used a package called scenes for all the classes that contain the labels placed over the game's interface.
+Core also contains a package called screens which will contain the different playscreen classes for different levels and other screens we will be using.
 The last package, sprites, will contain the classes concerning the player's sprite, enemies and items.
 Finally core will contain a class that will extend the game, which will be used to create, render and dispose of the screens used.
 
-The android part of the app will contain a package for classes dealing with the Firebase authentication.
-It will also contain a class displaying the start screen.
+The android part of the app has methods used for the Leaderboard and Achievements in the AndroidLauncher class, where it also launches the game.
 
 ## Application Programming Interface
 
-The Google Play Services API is used to implement the Leaderboard
-## Problems
+The Google Play Services API is used to implement the Leaderboard and Achievements section.
+## Problems at the Beginning
 
 A problem that might arise is the lack of tilesets and sprites.
 Although I have already founded a great set of tiles, I noticed there is a lack of high quality tilesets and sprites.
@@ -70,4 +72,5 @@ Expansion of the app would focus on more levels, different difficulties, a high 
 If the first level is working and playable, the next implementations would be the authentication and scoreboard.
 After that the focus would be on creating more levels to play and creating multiple ways to play a level.
 
+*Copyright (c) 2017 Fjodor van Rijsselberg*
 *Made by Fjodor van Rijsselberg*
