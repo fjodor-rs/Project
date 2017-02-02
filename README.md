@@ -73,4 +73,5 @@ If the first level is working and playable, the next implementations would be th
 After that the focus would be on creating more levels to play and creating multiple ways to play a level.
 
 *Copyright (c) 2017 Fjodor van Rijsselberg*
+
 *Made by Fjodor van Rijsselberg*
